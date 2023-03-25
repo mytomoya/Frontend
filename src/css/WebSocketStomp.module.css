@@ -24,3 +24,7 @@
     max-height: 200px;
     overflow-y: scroll;
 }
+
+#message-wrapper li {
+    padding: 5px 0;
+}
