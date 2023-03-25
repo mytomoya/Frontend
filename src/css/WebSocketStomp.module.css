@@ -19,3 +19,8 @@
 #connect-button.connected {
     background-color: rgb(255, 211, 115);
 }
+
+#message-wrapper {
+    max-height: 200px;
+    overflow-y: scroll;
+}

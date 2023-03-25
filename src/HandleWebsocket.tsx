@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Stomp, { Frame, Message, Subscription } from "stompjs";
 import style from "./css/WebSocketStomp.module.css";
 
@@ -11,6 +11,14 @@ const WebSocketStomp = () => {
     const [subscription, setSubscription] = useState<Subscription | null>(null);
 
     const [messages, setMessages] = useState<string[]>([]);
+    const messageWrapperRef = useRef<HTMLUListElement>(null);
+
+    useEffect(() => {
+        const messageWrapper = messageWrapperRef.current;
+        if (messageWrapper != null) {
+            messageWrapper.scrollTop = messageWrapper.scrollHeight;
+        }
+    }, [messages]);
 
     const connect = () => {
         const socket = new WebSocket(endpoint);
@@ -69,7 +77,7 @@ const WebSocketStomp = () => {
                     </button>
                 </div>
                 <h2>Received Messages</h2>
-                <ul>
+                <ul id={style["message-wrapper"]} ref={messageWrapperRef}>
                     {messages.map((value, index) => {
                         return <li key={index}>{value}</li>;
                     })}
