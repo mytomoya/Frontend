@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Stomp, { Frame, Message, Subscription } from "stompjs";
+import style from "./css/WebSocketStomp.module.css";
 
 const WebSocketStomp = () => {
     const topic = "/topic/message";
@@ -53,11 +54,18 @@ const WebSocketStomp = () => {
 
     return (
         <>
-            <div>WebSocket Stomp</div>
-            <p>Received: {message}</p>
-            <button onClick={toggleConnection}>
-                status: {connected.toString()}
-            </button>
+            <div>
+                <div id={style["button-wrapper"]}>
+                    <button
+                        onClick={toggleConnection}
+                        id={style["connect-button"]}
+                        className={!connected ? style.connected : ""}
+                    >
+                        {!connected ? "Connect" : "Disconnect"}
+                    </button>
+                </div>
+                <p>Received: {message}</p>
+            </div>
         </>
     );
 };
