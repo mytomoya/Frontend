@@ -10,7 +10,7 @@ const WebSocketStomp = () => {
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [subscription, setSubscription] = useState<Subscription | null>(null);
 
-    const [message, setMessage] = useState<string>("");
+    const [messages, setMessages] = useState<string[]>([]);
 
     const connect = () => {
         const socket = new WebSocket(endpoint);
@@ -24,7 +24,10 @@ const WebSocketStomp = () => {
                     topic,
                     (newMessage: Message) => {
                         console.log("Received: " + newMessage.body);
-                        setMessage(newMessage.body);
+                        setMessages((messages) => [
+                            ...messages,
+                            newMessage.body,
+                        ]);
                     }
                 );
                 setSubscription(subscription);
@@ -45,6 +48,7 @@ const WebSocketStomp = () => {
                 stompClient.disconnect(() => {
                     console.log("disconnect");
                     setConnected(false);
+                    setMessages((messages) => []);
                 });
             }
         } else {
@@ -64,7 +68,12 @@ const WebSocketStomp = () => {
                         {!connected ? "Connect" : "Disconnect"}
                     </button>
                 </div>
-                <p>Received: {message}</p>
+                <h2>Received Messages</h2>
+                <ul>
+                    {messages.map((value, index) => {
+                        return <li key={index}>{value}</li>;
+                    })}
+                </ul>
             </div>
         </>
     );
