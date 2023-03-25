@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Stomp, { Frame, Message, Subscription } from "stompjs";
+import style from "./css/WebSocketStomp.module.css";
 
 const WebSocketStomp = () => {
     const topic = "/topic/message";
@@ -9,7 +10,15 @@ const WebSocketStomp = () => {
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [subscription, setSubscription] = useState<Subscription | null>(null);
 
-    const [message, setMessage] = useState<string>("");
+    const [messages, setMessages] = useState<string[]>([]);
+    const messageWrapperRef = useRef<HTMLUListElement>(null);
+
+    useEffect(() => {
+        const messageWrapper = messageWrapperRef.current;
+        if (messageWrapper != null) {
+            messageWrapper.scrollTop = messageWrapper.scrollHeight;
+        }
+    }, [messages]);
 
     const connect = () => {
         const socket = new WebSocket(endpoint);
@@ -23,7 +32,10 @@ const WebSocketStomp = () => {
                     topic,
                     (newMessage: Message) => {
                         console.log("Received: " + newMessage.body);
-                        setMessage(newMessage.body);
+                        setMessages((messages) => [
+                            ...messages,
+                            newMessage.body,
+                        ]);
                     }
                 );
                 setSubscription(subscription);
@@ -44,6 +56,7 @@ const WebSocketStomp = () => {
                 stompClient.disconnect(() => {
                     console.log("disconnect");
                     setConnected(false);
+                    setMessages((messages) => []);
                 });
             }
         } else {
@@ -53,11 +66,23 @@ const WebSocketStomp = () => {
 
     return (
         <>
-            <div>WebSocket Stomp</div>
-            <p>Received: {message}</p>
-            <button onClick={toggleConnection}>
-                status: {connected.toString()}
-            </button>
+            <div>
+                <div id={style["button-wrapper"]}>
+                    <button
+                        onClick={toggleConnection}
+                        id={style["connect-button"]}
+                        className={!connected ? style.connected : ""}
+                    >
+                        {!connected ? "Connect" : "Disconnect"}
+                    </button>
+                </div>
+                <h2>Received Messages</h2>
+                <ul id={style["message-wrapper"]} ref={messageWrapperRef}>
+                    {messages.map((value, index) => {
+                        return <li key={index}>{value}</li>;
+                    })}
+                </ul>
+            </div>
         </>
     );
 };

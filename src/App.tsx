@@ -1,7 +1,7 @@
-import WebSocketStomp from "./HandleWebsocket";
+import Container from "./Container";
 
 function App() {
-    return <WebSocketStomp />;
+    return <Container />;
 }
 
 export default App;
