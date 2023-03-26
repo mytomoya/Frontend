@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import ApexCharts from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
@@ -21,13 +20,9 @@ const options: ApexOptions = {
         enabled: false,
     },
     xaxis: {
-        type: "datetime",
         // range: TIME_RANGE_IN_MILLISECONDS,
         title: {
-            text: "Datetime",
-        },
-        labels: {
-            datetimeUTC: false,
+            text: "time",
         },
     },
     yaxis: {
@@ -35,62 +30,27 @@ const options: ApexOptions = {
     },
 };
 
-const LineChart = () => {
-    const [data, setData] = useState<any>([]);
-    const [intervalId, setIntervalId] = useState<any>(null);
-    const [capturing, setCapturing] = useState<boolean>(false);
+interface Props {
+    data: number[];
+}
 
-    useEffect(() => {
-        return () => {
-            clearInterval(intervalId);
-        };
-    }, [intervalId]);
-
-    const startDataGeneration = () => {
-        if (intervalId != null) {
-            return;
-        }
-        const id = setInterval(() => {
-            const newData = {
-                x: new Date(),
-                y: Math.floor(Math.random() * 100),
-            };
-
-            setData((prevData: any) => [...prevData, newData]);
-        }, 1000);
-        setIntervalId(id);
-        setCapturing(!capturing);
-    };
-
-    const stopDataGeneration = () => {
-        if (intervalId == null) {
-            return;
-        }
-        clearInterval(intervalId);
-        setIntervalId(null);
-        setCapturing(!capturing);
-    };
-
+const LineChart = ({ data }: Props) => {
     const series = [
         {
             name: "example name",
-            data: data,
+            data: data.map((value, index) => {
+                return {
+                    x: index,
+                    y: value,
+                };
+            }),
         },
     ];
 
-    const onClickButton = () => {
-        if (capturing) {
-            stopDataGeneration();
-        } else {
-            startDataGeneration();
-        }
-    };
+    console.log(data);
 
     return (
         <>
-            <button onClick={onClickButton}>
-                {capturing ? "Stop" : "Start"}
-            </button>
             <ApexCharts
                 options={options}
                 series={series}

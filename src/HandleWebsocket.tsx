@@ -1,24 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Stomp, { Frame, Message, Subscription } from "stompjs";
 import style from "./css/WebSocketStomp.module.css";
+import LineChart from "./LineChart";
+
+interface Data {
+    content: number;
+}
 
 const WebSocketStomp = () => {
-    const topic = "/topic/message";
+    const topic = "/topic/value";
     const endpoint = "ws://localhost:8080/endpoint";
 
     const [connected, setConnected] = useState<boolean>(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [subscription, setSubscription] = useState<Subscription | null>(null);
 
-    const [messages, setMessages] = useState<string[]>([]);
-    const messageWrapperRef = useRef<HTMLUListElement>(null);
-
-    useEffect(() => {
-        const messageWrapper = messageWrapperRef.current;
-        if (messageWrapper != null) {
-            messageWrapper.scrollTop = messageWrapper.scrollHeight;
-        }
-    }, [messages]);
+    const [values, setValues] = useState<number[]>([]);
 
     const connect = () => {
         const socket = new WebSocket(endpoint);
@@ -32,10 +29,13 @@ const WebSocketStomp = () => {
                     topic,
                     (newMessage: Message) => {
                         console.log("Received: " + newMessage.body);
-                        setMessages((messages) => [
-                            ...messages,
-                            newMessage.body,
-                        ]);
+
+                        const item = JSON.parse(newMessage.body) as Data;
+                        const value = item["content"];
+
+                        if (!isNaN(value)) {
+                            setValues((messages) => [...messages, value]);
+                        }
                     }
                 );
                 setSubscription(subscription);
@@ -56,7 +56,7 @@ const WebSocketStomp = () => {
                 stompClient.disconnect(() => {
                     console.log("disconnect");
                     setConnected(false);
-                    setMessages((messages) => []);
+                    setValues((values) => []);
                 });
             }
         } else {
@@ -76,12 +76,7 @@ const WebSocketStomp = () => {
                         {!connected ? "Connect" : "Disconnect"}
                     </button>
                 </div>
-                <h2>Received Messages</h2>
-                <ul id={style["message-wrapper"]} ref={messageWrapperRef}>
-                    {messages.map((value, index) => {
-                        return <li key={index}>{value}</li>;
-                    })}
-                </ul>
+                <LineChart data={values} />
             </div>
         </>
     );
