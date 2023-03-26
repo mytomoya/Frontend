@@ -24,6 +24,9 @@ const options: ApexOptions = {
         title: {
             text: "time",
         },
+        labels: {
+            show: false,
+        },
     },
     yaxis: {
         title: { text: "Value" },
