@@ -7,7 +7,7 @@ interface Props {
 
 const Model = ({ src }: Props) => {
     const { scene, animations } = useGLTF(src);
-    const group = useRef<any>();
+    const group = useRef<THREE.Group>(null);
     const { actions } = useAnimations(animations, group);
 
     useEffect(() => {
