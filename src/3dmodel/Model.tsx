@@ -6,6 +6,7 @@ import {
     ContactShadows,
 } from "@react-three/drei";
 import { useEffect, useRef } from "react";
+import { DoubleSide } from "three";
 
 interface Props {
     src: string;
@@ -39,7 +40,7 @@ const Model = ({ src }: Props) => {
                 position={[0, -1.001, 0]}
                 rotation={[-Math.PI / 2, 0, 0]}
             >
-                <meshBasicMaterial color="#ff9999" />
+                <meshBasicMaterial color="#ff9999" side={DoubleSide} />
             </Plane>
         </>
     );
