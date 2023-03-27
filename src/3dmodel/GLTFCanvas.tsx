@@ -9,7 +9,13 @@ const GLTFCanvas = () => {
     return (
         <div style={{ height: "500px" }}>
             <h2>Animation</h2>
-            <Canvas>
+            <Canvas
+                camera={{
+                    fov: 50,
+                    position: [0, 0, 3],
+                }}
+                style={{ border: "1px solid black" }}
+            >
                 <OrbitControls />
                 <ambientLight />
                 {/* <pointLight position={[10, 10, 10]} /> */}
