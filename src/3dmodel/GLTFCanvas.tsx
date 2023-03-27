@@ -1,14 +1,19 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import Model from "./Model";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 
 const GLTFCanvas = () => {
     const src = "./model.gltf";
 
+    const [animate, setAniamte] = useState<boolean>(true);
+
     return (
         <div style={{ height: "500px" }}>
             <h2>Animation</h2>
+            <button onClick={() => setAniamte(!animate)}>
+                {animate ? "stop" : "start"}
+            </button>
             <Canvas
                 camera={{
                     fov: 50,
@@ -20,7 +25,7 @@ const GLTFCanvas = () => {
                 <ambientLight />
                 {/* <pointLight position={[10, 10, 10]} /> */}
                 <Suspense fallback={null}>
-                    <Model src={src} />
+                    <Model src={src} animate={animate} />
                 </Suspense>
             </Canvas>
         </div>

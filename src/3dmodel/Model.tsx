@@ -10,16 +10,24 @@ import { DoubleSide } from "three";
 
 interface Props {
     src: string;
+    animate: boolean;
 }
 
-const Model = ({ src }: Props) => {
+const Model = ({ src, animate }: Props) => {
     const { scene, animations } = useGLTF(src);
     const group = useRef<THREE.Group>(null);
     const { actions } = useAnimations(animations, group);
 
     useEffect(() => {
-        actions["Animation"]?.play();
-    }, []);
+        if (actions["Animation"] == null) {
+            return;
+        }
+        actions["Animation"].play();
+    }, [actions]);
+
+    if (actions["Animation"] != null) {
+        actions["Animation"].paused = !animate;
+    }
 
     return (
         <>
