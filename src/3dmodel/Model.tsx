@@ -1,4 +1,10 @@
-import { useGLTF, useAnimations } from "@react-three/drei";
+import {
+    useGLTF,
+    useAnimations,
+    Center,
+    Plane,
+    ContactShadows,
+} from "@react-three/drei";
 import { useEffect, useRef } from "react";
 
 interface Props {
@@ -15,9 +21,27 @@ const Model = ({ src }: Props) => {
     }, []);
 
     return (
-        <group ref={group} dispose={null}>
-            <primitive object={scene} />
-        </group>
+        <>
+            <Center>
+                <group ref={group}>
+                    <primitive object={scene} scale={1} />
+                </group>
+            </Center>
+            <ContactShadows
+                position={[0, -1, 0]}
+                scale={10}
+                far={3}
+                blur={3}
+                rotation={[Math.PI / 2, 0, 0]}
+            />
+            <Plane
+                args={[10, 10]}
+                position={[0, -1.001, 0]}
+                rotation={[-Math.PI / 2, 0, 0]}
+            >
+                <meshBasicMaterial color="#ff9999" />
+            </Plane>
+        </>
     );
 };
 
