@@ -72,7 +72,11 @@ const Model = ({ animate }: Props) => {
         <>
             <Center>
                 <primitive object={scene} scale={1} ref={humanRef} />
-                <primitive object={barbellScene} scale={1} ref={barbellRef} />
+                <primitive
+                    object={barbellScene}
+                    scale={1.0001}
+                    ref={barbellRef}
+                />
             </Center>
             <ContactShadows
                 position={[0, -1, 0]}
