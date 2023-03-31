@@ -37,7 +37,7 @@ interface Props {
     data: number[];
 }
 
-const LineChart = ({ data }: Props) => {
+const LineChart = ({ data }: Props): JSX.Element => {
     const series = [
         {
             name: "example name",
