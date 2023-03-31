@@ -84,6 +84,8 @@ If your shell is **zsh**, run:
 echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zprofile
 ```
 
+Once you have completed the installation, **restart the terminal**.
+
 If everything has been installed properly, 
 
 ```bash
