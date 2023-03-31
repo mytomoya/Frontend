@@ -16,7 +16,7 @@ interface Props {
 const humanModelSrc = "./model.gltf";
 const barbellModelSrc = "./barbell.gltf";
 const actionName = "Animation";
-const barbellActionName = "Animation_Cylinder.001";
+const barbellActionName = "BarbellAnimation";
 
 const Model = ({ animate }: Props) => {
     // Human
