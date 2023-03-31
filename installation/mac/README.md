@@ -1,4 +1,3 @@
-
 # Installation
 
 To run the app, you need:
