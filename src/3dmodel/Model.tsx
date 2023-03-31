@@ -49,7 +49,9 @@ const Model = ({ animate }: Props) => {
         barbellActions[barbellActionName].play();
 
         // Modify tracks
-        // let track = clip.tracks[200];
+        // let clip = barbellActions[barbellActionName].getClip();
+        // console.log(clip);
+        // let track = clip.tracks[0];
         // track.times[0] = 1;
         // track.values[0] = 1;
         // track.values[100] = -5;
