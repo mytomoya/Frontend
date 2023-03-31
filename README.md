@@ -95,5 +95,5 @@ should show the version of the installed Node.js (which is `vA.B.C` you saw abov
 `npm` must have been installed with Node.js. You can check that with:
 
 ```bash
-npm --version
+npm -v
 ```
