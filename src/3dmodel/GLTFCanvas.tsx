@@ -4,8 +4,6 @@ import Model from "./Model";
 import { Suspense, useState } from "react";
 
 const GLTFCanvas = () => {
-    const src = "./model.gltf";
-
     const [animate, setAniamte] = useState<boolean>(true);
 
     return (
@@ -25,7 +23,7 @@ const GLTFCanvas = () => {
                 <ambientLight />
                 {/* <pointLight position={[10, 10, 10]} /> */}
                 <Suspense fallback={null}>
-                    <Model src={src} animate={animate} />
+                    <Model animate={animate} />
                 </Suspense>
             </Canvas>
         </div>

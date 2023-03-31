@@ -6,35 +6,73 @@ import {
     ContactShadows,
 } from "@react-three/drei";
 import { useEffect, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
 import { DoubleSide } from "three";
 
 interface Props {
-    src: string;
     animate: boolean;
 }
 
-const Model = ({ src, animate }: Props) => {
-    const { scene, animations } = useGLTF(src);
-    const group = useRef<THREE.Group>(null);
-    const { actions } = useAnimations(animations, group);
+const humanModelSrc = "./model.gltf";
+const barbellModelSrc = "./barbell.gltf";
+const actionName = "Animation";
+const barbellActionName = "Animation_Cylinder.001";
+
+const Model = ({ animate }: Props) => {
+    // Human
+    const { scene, animations } = useGLTF(humanModelSrc);
+    const humanRef = useRef<THREE.Group>(null);
+    const { actions } = useAnimations(animations, humanRef);
+
+    // Barbell
+    const { scene: barbellScene, animations: barbellAnimations } =
+        useGLTF(barbellModelSrc);
+    const barbellRef = useRef<THREE.Group>(null);
+    const { actions: barbellActions } = useAnimations(
+        barbellAnimations,
+        barbellRef
+    );
+
+    // const animationSpeed = 1;
 
     useEffect(() => {
-        if (actions["Animation"] == null) {
+        if (
+            actions[actionName] == null ||
+            barbellActions[barbellActionName] == null
+        ) {
             return;
         }
-        actions["Animation"].play();
-    }, [actions]);
 
-    if (actions["Animation"] != null) {
-        actions["Animation"].paused = !animate;
-    }
+        actions[actionName].play();
+        barbellActions[barbellActionName].getClip().duration =
+            actions[actionName].getClip().duration;
+        barbellActions[barbellActionName].play();
+
+        // Modify tracks
+        // let track = clip.tracks[200];
+        // track.times[0] = 1;
+        // track.values[0] = 1;
+        // track.values[100] = -5;
+        // console.log(track);
+
+        // actions["Animation"].setDuration(clip.duration / animationSpeed);
+    }, [actions, barbellActions]);
+
+    useFrame((state, delta) => {
+        if (
+            actions[actionName] != null &&
+            barbellActions[barbellActionName] != null
+        ) {
+            actions[actionName].paused = !animate;
+            barbellActions[barbellActionName].paused = !animate;
+        }
+    });
 
     return (
         <>
             <Center>
-                <group ref={group}>
-                    <primitive object={scene} scale={1} />
-                </group>
+                <primitive object={scene} scale={1} ref={humanRef} />
+                <primitive object={barbellScene} scale={1} ref={barbellRef} />
             </Center>
             <ContactShadows
                 position={[0, -1, 0]}
