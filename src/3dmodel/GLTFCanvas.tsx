@@ -3,7 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import Model from "./Model";
 import { Suspense, useState } from "react";
 
-const GLTFCanvas = () => {
+const GLTFCanvas = (): JSX.Element => {
     const [animate, setAniamte] = useState<boolean>(true);
 
     return (

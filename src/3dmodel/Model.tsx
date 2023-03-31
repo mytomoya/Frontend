@@ -18,7 +18,7 @@ const barbellModelSrc = "./barbell.gltf";
 const actionName = "Animation";
 const barbellActionName = "BarbellAnimation";
 
-const Model = ({ animate }: Props) => {
+const Model = ({ animate }: Props): JSX.Element => {
     // Human
     const { scene, animations } = useGLTF(humanModelSrc);
     const humanRef = useRef<THREE.Group>(null);
