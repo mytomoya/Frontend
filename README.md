@@ -45,3 +45,55 @@ nodebrew --version
 ```
 
 > If it does not, nodebrew may not have been installed properly.
+
+
+#### 1.3. Node.js, npm
+
+First, run:
+
+```bash
+nodebrew install stable
+```
+
+Second, run:
+
+```bash
+nodebrew show
+```
+
+The above command shows `nodebrew use vA.B.C`, where `A`, `B` and `C` are some numbers. If you find it, copy and run it:
+
+```bash
+nodebrew use vA.B.C
+```
+
+> Do not forget to replace `A`, `B` and `C` with your numbers.
+
+
+Finally, you need to add `$HOME/.nodebrew/current/bin` to the `PATH` environment variable.
+
+If your shell is **bash**, run:
+
+```bash
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bash_profile
+```
+
+If your shell is **zsh**, run:
+
+```zsh
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zprofile
+```
+
+If everything has been installed properly, 
+
+```bash
+node -v
+```
+
+should show the version of the installed Node.js (which is `vA.B.C` you saw above).
+
+`npm` must have been installed with Node.js. You can check that with:
+
+```bash
+npm --version
+```
