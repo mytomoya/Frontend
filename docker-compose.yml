@@ -1,0 +1,14 @@
+services:
+  react-app:
+    container_name: mems-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: .
+        target: /usr/src/app
+    ports:
+      - "3000:3000"
+    stdin_open: true 
+    tty: true
