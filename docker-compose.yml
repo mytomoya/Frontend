@@ -19,7 +19,8 @@ services:
       - "host.docker.internal:host-gateway"
     command: 
       sh -c "
-        yarn
+        yarn &&
+        yarn start
       "
 networks:
   mems-network:
