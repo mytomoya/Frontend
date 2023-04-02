@@ -21,7 +21,7 @@ If you want to set up your environment manually, follow the instruction dependin
 
 ### Docker
 
-Install `Docker Desktop` following [Install Docker Engine](https://docs.docker.com/engine/install/).
+Follow [Install Docker Engine](https://docs.docker.com/engine/install/) to install `Docker Desktop`.
 
 
 ## Run the App
@@ -37,4 +37,10 @@ If you use Docker, run:
 ```bash
 docker-compose up -d
 docker-compose exec react-app yarn start
+```
+
+If you get the `network mems-network declared as external, but could not be found` error, run:
+
+```bash
+docker network create mems-network --subnet=192.168.1.0/24 --gateway=192.168.1.1
 ```

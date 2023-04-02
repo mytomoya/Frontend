@@ -8,7 +8,13 @@ services:
       - type: bind
         source: .
         target: /usr/src/app
+    networks:
+      mems-network:
+        ipv4_address: 192.168.1.2
     ports:
       - "3000:3000"
     stdin_open: true 
     tty: true
+networks:
+  mems-network:
+    external: true
