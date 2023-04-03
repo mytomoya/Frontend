@@ -24,23 +24,24 @@ const WebSocketStomp = () => {
         newStompClient.debug = () => {};
 
         newStompClient.connect({}, (frame?: Frame) => {
-            if (frame != null) {
-                const subscription = newStompClient.subscribe(
-                    topic,
-                    (newMessage: Message) => {
-                        console.log("Received: " + newMessage.body);
-
-                        const item = JSON.parse(newMessage.body) as Data;
-                        const value = item["content"];
-
-                        if (!isNaN(value)) {
-                            setValues((messages) => [...messages, value]);
-                        }
-                    }
-                );
-                setSubscription(subscription);
-                setConnected(true);
+            if (frame == null) {
+                return;
             }
+            const subscription = newStompClient.subscribe(
+                topic,
+                (newMessage: Message) => {
+                    console.log("Received: " + newMessage.body);
+
+                    const item = JSON.parse(newMessage.body) as Data;
+                    const value = item["content"];
+
+                    if (!isNaN(value)) {
+                        setValues((messages) => [...messages, value]);
+                    }
+                }
+            );
+            setSubscription(subscription);
+            setConnected(true);
         });
 
         setStompClient(newStompClient);
