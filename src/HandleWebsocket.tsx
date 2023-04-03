@@ -42,6 +42,7 @@ const WebSocketStomp = () => {
             );
             setSubscription(subscription);
             setConnected(true);
+            setValues((values) => []);
         });
 
         setStompClient(newStompClient);
@@ -57,7 +58,6 @@ const WebSocketStomp = () => {
                 stompClient.disconnect(() => {
                     console.log("disconnect");
                     setConnected(false);
-                    setValues((values) => []);
                 });
             }
         } else {
