@@ -15,6 +15,13 @@ services:
       - "3000:3000"
     stdin_open: true 
     tty: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: 
+      sh -c "
+        yarn &&
+        yarn start
+      "
 networks:
   mems-network:
     external: true

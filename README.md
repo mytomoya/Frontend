@@ -35,8 +35,7 @@ npm start
 If you use Docker, run:
 
 ```bash
-docker-compose up -d
-docker-compose exec react-app yarn start
+docker-compose up
 ```
 
 If you get the `network mems-network declared as external, but could not be found` error, run:
