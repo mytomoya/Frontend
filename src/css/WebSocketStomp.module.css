@@ -1,3 +1,11 @@
+#root {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+#root h2 {
+    text-align: center;
+}
 
 #button-wrapper {
     text-align: center;

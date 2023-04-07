@@ -9,7 +9,7 @@ const GLTFCanvas = (): JSX.Element => {
     const [animate, setAniamte] = useState<boolean>(true);
 
     return (
-        <div>
+        <div id={style.root}>
             <h2>Animation</h2>
             <button onClick={() => setAniamte(!animate)}>
                 {animate ? "stop" : "start"}

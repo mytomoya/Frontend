@@ -58,7 +58,7 @@ const LineChart = ({ data }: Props): JSX.Element => {
                 options={options}
                 series={series}
                 type="line"
-                height={300}
+                height={400}
             />
         </>
     );

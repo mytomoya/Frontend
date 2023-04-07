@@ -1,3 +1,12 @@
+#root {
+    grid-row: 2;
+    grid-column: 2;
+    max-width: 100%;
+    text-align: center;
+}
+
 #container {
-    height: 500px;
+    height: 400px;
+    width: 400px;
+    margin: auto;
 }

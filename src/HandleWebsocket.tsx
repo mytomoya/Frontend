@@ -67,7 +67,8 @@ const WebSocketStomp = () => {
 
     return (
         <>
-            <div>
+            <div id={style.root}>
+                <h2>Realtime () Visualizer</h2>
                 <div id={style["button-wrapper"]}>
                     <button
                         onClick={toggleConnection}
