@@ -21,7 +21,6 @@ const History = () => {
     useEffect(() => {
         fetchData();
     }, []);
-    console.log(checkedRecord);
 
     const list = (): JSX.Element => {
         return (
@@ -34,6 +33,8 @@ const History = () => {
                 {records.map((value, index) => {
                     const date = Date.parse(value.datetime);
                     const formattedDate = formatDate(date);
+                    const [day, time] = formattedDate.split(" ");
+
                     let className = `${style["item"]}`;
                     if (value.id === checkedRecord) {
                         className += ` ${style["checked"]}`;
@@ -47,7 +48,8 @@ const History = () => {
                         >
                             <div className={style["index"]}>{index + 1}</div>
                             <div className={style["record"]}>
-                                {formattedDate}
+                                <span>{day}</span>
+                                <span> {time}</span>
                             </div>
                         </div>
                     );

@@ -6,6 +6,7 @@
     #table {
         background-color: white;
         width: 70%;
+        max-width: 300px;
         margin: auto;
 
         #header {
@@ -49,6 +50,12 @@
 
             .record {
                 grid-column: 2;
+            }
+
+            span {
+                &:first-of-type {
+                    margin-right: 10px;
+                }
             }
         }
     }
