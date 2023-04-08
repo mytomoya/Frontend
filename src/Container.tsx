@@ -1,5 +1,5 @@
 import WebSocketStomp from "./HandleWebsocket";
-import style from "./css/Container.module.css";
+import style from "./scss/Container.module.scss";
 import GLTFCanvas from "./3dmodel/GLTFCanvas";
 
 const Container = (): JSX.Element => {
