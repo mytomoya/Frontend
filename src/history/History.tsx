@@ -6,9 +6,10 @@ import LineChart from "./LineChart";
 
 interface Props {
     updated: boolean;
+    setUpdated: (value: boolean) => void;
 }
 
-const History = ({ updated }: Props) => {
+const History = ({ updated, setUpdated }: Props) => {
     const [checkedRecord, setCheckedRecord] = useState<number>(-1);
     const [records, setRecords] = useState<Item[]>([]);
 
@@ -27,6 +28,7 @@ const History = ({ updated }: Props) => {
 
     useEffect(() => {
         fetchData(0);
+        setUpdated(false);
     }, [updated]);
 
     const getCheckedRecordID = (id: number): number => {
