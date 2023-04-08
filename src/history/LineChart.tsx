@@ -68,8 +68,7 @@ const LineChart = ({ item }: Props): JSX.Element => {
         },
     ];
 
-    const date = Date.parse(item.datetime);
-    const formattedDate = formatDate(date);
+    const formattedDate = formatDate(item.datetime);
     const [day, time] = formattedDate.split(" ");
 
     return (

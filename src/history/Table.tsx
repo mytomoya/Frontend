@@ -29,8 +29,7 @@ const Table = ({
                 </div>
 
                 {records.map((value, index) => {
-                    const date = Date.parse(value.datetime);
-                    const formattedDate = formatDate(date);
+                    const formattedDate = formatDate(value.datetime);
                     const [day, time] = formattedDate.split(" ");
 
                     let className = `${style["item"]}`;
