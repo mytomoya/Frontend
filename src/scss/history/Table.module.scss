@@ -84,4 +84,26 @@
             transition: 1s ease-in-out;
         }
     }
+
+    .pagination {
+        font-size: 1.1em;
+        font-weight: bold;
+        line-height: 1.1em;
+        margin-top: 15px;
+        text-align: center;
+
+        .page {
+            padding: 0 30px;
+        }
+
+        .icon {
+            color: #2a2a2a;
+            vertical-align: -1px;
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.7;
+            }
+        }
+    }
 }

@@ -12,18 +12,21 @@ const History = ({ updated }: Props) => {
     const [checkedRecord, setCheckedRecord] = useState<number>(-1);
     const [records, setRecords] = useState<Item[]>([]);
 
-    const fetchData = async (offset: number = 0) => {
+    const fetchData = async (offset: number): Promise<boolean> => {
         const response = await getRecords(offset);
 
         if (response === null) {
-            return;
+            return false;
+        } else if (response.data.length === 0) {
+            return false;
         }
 
         setRecords(response.data);
+        return true;
     };
 
     useEffect(() => {
-        fetchData();
+        fetchData(0);
     }, [updated]);
 
     const getCheckedRecordID = (id: number): number => {
