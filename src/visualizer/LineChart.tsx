@@ -39,9 +39,10 @@ const options: ApexOptions = {
 
 interface Props {
     data: number[];
+    setUpdated: (updated: boolean) => void;
 }
 
-const LineChart = ({ data }: Props): JSX.Element => {
+const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
@@ -63,6 +64,7 @@ const LineChart = ({ data }: Props): JSX.Element => {
         const success = await save(series[0]);
         if (success) {
             setMessage("Saved successfully");
+            setUpdated(true);
         } else {
             setMessage("Failed to save");
         }
