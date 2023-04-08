@@ -6,35 +6,3 @@
 #root h2 {
     text-align: center;
 }
-
-#button-wrapper {
-    text-align: center;
-}
-
-#connect-button {
-    border-radius: 30px;
-    padding: 15px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-    border: none;
-    background-color: rgb(255, 211, 115);
-}
-
-#connect-button:hover {
-    opacity: 0.8;
-}
-
-#connect-button.connected {
-    background-color: rgba(255, 0, 0, 0.856);
-    color: white;
-}
-
-#message-wrapper {
-    max-height: 200px;
-    overflow-y: scroll;
-}
-
-#message-wrapper li {
-    padding: 5px 0;
-}

@@ -69,15 +69,16 @@ const WebSocketStomp = () => {
         <>
             <div id={style.root}>
                 <h2>Realtime () Visualizer</h2>
-                <div id={style["button-wrapper"]}>
-                    <button
-                        onClick={toggleConnection}
-                        id={style["connect-button"]}
-                        className={connected ? style.connected : ""}
-                    >
-                        {!connected ? "Connect" : "Disconnect"}
-                    </button>
-                </div>
+                <label className="toggle">
+                    <div className="toggle-label">Connect</div>
+                    <div className="toggle-button">
+                        <input
+                            type="checkbox"
+                            checked={connected}
+                            onChange={toggleConnection}
+                        />
+                    </div>
+                </label>
                 <LineChart data={values} />
             </div>
         </>
