@@ -1,7 +1,7 @@
 export interface Item {
     id: number;
     datetime: string;
-    data: {
+    dataJson: {
         time: number[];
         values: number[];
     };
