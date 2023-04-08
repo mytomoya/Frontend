@@ -1,0 +1,16 @@
+$button-width: 50px;
+
+.save-button-wrapper {
+    display: grid;
+    grid-template-columns: $button-width 1fr;
+    column-gap: 20px;
+
+    button {
+        grid-column: 1;
+        width: $button-width;
+    }
+
+    .response-message {
+        transition: 1s ease-in-out;
+    }
+}
