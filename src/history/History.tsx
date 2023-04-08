@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getRecords } from "../api/Handler";
 import { Item } from "../api/Types";
-import style from "../scss/History.module.scss";
 import Table from "./Table";
+import LineChart from "./LineChart";
 
 const History = () => {
     const [checkedRecord, setCheckedRecord] = useState<number>(-1);
@@ -22,14 +22,27 @@ const History = () => {
         fetchData();
     }, []);
 
+    const getCheckedRecordID = (id: number): number => {
+        for (let i = 0; i < records.length; i++) {
+            if (records[i].id === id) {
+                return i;
+            }
+        }
+        return -1;
+    };
+    const checkedRecordID = getCheckedRecordID(checkedRecord);
+
     return (
-        <div>
+        <>
             <Table
                 records={records}
                 checkedRecord={checkedRecord}
                 setCheckedRecord={setCheckedRecord}
             />
-        </div>
+            {checkedRecord !== -1 && checkedRecordID !== -1 && (
+                <LineChart item={records[checkedRecordID]} />
+            )}
+        </>
     );
 };
 

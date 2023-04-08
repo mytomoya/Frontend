@@ -1,5 +1,5 @@
 import { Item } from "../api/Types";
-import style from "../scss/Table.module.scss";
+import style from "../scss/history/Table.module.scss";
 import { formatDate } from "../Helper";
 
 interface Props {
