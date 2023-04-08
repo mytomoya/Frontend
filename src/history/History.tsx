@@ -4,7 +4,11 @@ import { Item } from "../api/Types";
 import Table from "./Table";
 import LineChart from "./LineChart";
 
-const History = () => {
+interface Props {
+    updated: boolean;
+}
+
+const History = ({ updated }: Props) => {
     const [checkedRecord, setCheckedRecord] = useState<number>(-1);
     const [records, setRecords] = useState<Item[]>([]);
 
@@ -20,7 +24,7 @@ const History = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [updated]);
 
     const getCheckedRecordID = (id: number): number => {
         for (let i = 0; i < records.length; i++) {

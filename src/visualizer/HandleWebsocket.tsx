@@ -4,11 +4,15 @@ import LineChart from "./LineChart";
 
 import style from "../scss/WebSocketStomp.module.scss";
 
+interface Props {
+    setUpdated: (updated: boolean) => void;
+}
+
 interface Data {
     content: number;
 }
 
-const WebSocketStomp = () => {
+const WebSocketStomp = ({ setUpdated }: Props) => {
     const topic = "/topic/value";
     const endpoint = "ws://localhost:8080/endpoint";
 
@@ -80,7 +84,7 @@ const WebSocketStomp = () => {
                         />
                     </div>
                 </label>
-                <LineChart data={values} />
+                <LineChart data={values} setUpdated={setUpdated} />
             </div>
         </>
     );
