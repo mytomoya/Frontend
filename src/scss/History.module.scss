@@ -1,0 +1,49 @@
+#root {
+    h2 {
+        text-align: center;
+    }
+
+    #table {
+        background-color: white;
+
+        #header {
+            font-weight: bold;
+            background-color: rgb(66, 180, 66);
+
+            &.item {
+                cursor: default;
+
+                &:hover {
+                    opacity: 1;
+                    background-color: rgb(66, 180, 66);
+                }
+            }
+        }
+
+        .item {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            border-bottom: 1px solid #ccc;
+
+            cursor: pointer;
+
+            &:hover {
+                opacity: 0.8;
+                background-color: #ccc;
+            }
+
+            &>* {
+                padding: 10px;
+            }
+
+            .index {
+                grid-column: 1;
+                border-right: 1px solid #ccc;
+            }
+
+            .record {
+                grid-column: 2;
+            }
+        }
+    }
+}
