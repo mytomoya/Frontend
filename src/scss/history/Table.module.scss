@@ -62,21 +62,13 @@
 
     .buttons {
         margin: 20px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        column-gap: 10px;
+        text-align: center;
 
-        div {
-            &:first-of-type {
-                text-align: right;
-            }
+        button {
+            width: 70px;
 
-            button {
-                width: 70px;
-
-                &.delete {
-                    background-color: #ff0505;
-                }
+            &.delete {
+                background-color: #ff0505;
             }
         }
 

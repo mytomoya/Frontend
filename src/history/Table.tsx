@@ -55,14 +55,9 @@ const Table = ({ records, checkedRecord, setCheckedRecord }: Props) => {
             <h2>History</h2>
             {list()}
             <div className={className}>
-                <div>
-                    <button className="default-button">Show</button>
-                </div>
-                <div>
-                    <button className={`default-button ${style["delete"]}`}>
-                        Delete
-                    </button>
-                </div>
+                <button className={`default-button ${style["delete"]}`}>
+                    Delete
+                </button>
             </div>
         </div>
     );
