@@ -3,12 +3,13 @@ import style from "../scss/history/Table.module.scss";
 import { formatDate } from "../Helper";
 import { deleteRecord } from "../api/Handler";
 import { useState } from "react";
+import { FaChevronCircleLeft, FaChevronCircleRight } from "react-icons/fa";
 
 interface Props {
     records: Item[];
     checkedRecordID: number;
     setCheckedRecord: (checkedRecord: number) => void;
-    fetchData: () => void;
+    fetchData: (offset: number) => Promise<boolean>;
 }
 
 const Table = ({
@@ -17,6 +18,8 @@ const Table = ({
     setCheckedRecord,
     fetchData,
 }: Props) => {
+    const limit = 10;
+    const [offset, setOffset] = useState<number>(0);
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
@@ -72,14 +75,40 @@ const Table = ({
         setShowMessage(true);
         setTimeout(() => {
             setShowMessage(false);
-            fetchData();
+            fetchData(0);
         }, 3000);
+    };
+
+    const onClick = async (offset: number) => {
+        const success = await fetchData(offset * limit);
+        if (success) {
+            setOffset(offset);
+        } else {
+            console.log("failed to fetch data");
+        }
     };
 
     return (
         <div id={style["root"]}>
             <h2>History</h2>
             {list()}
+
+            <div className={style["pagination"]}>
+                <FaChevronCircleLeft
+                    className={style["icon"]}
+                    onClick={() => {
+                        if (offset === 0) return;
+                        onClick(offset - 1);
+                    }}
+                />
+                <span className={style["page"]}>{offset + 1}</span>
+                <FaChevronCircleRight
+                    className={style["icon"]}
+                    onClick={() => {
+                        onClick(offset + 1);
+                    }}
+                />
+            </div>
             <div className={className}>
                 <button
                     className={`default-button ${style["delete"]}`}
