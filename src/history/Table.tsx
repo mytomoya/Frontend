@@ -8,9 +8,15 @@ interface Props {
     records: Item[];
     checkedRecordID: number;
     setCheckedRecord: (checkedRecord: number) => void;
+    fetchData: () => void;
 }
 
-const Table = ({ records, checkedRecordID, setCheckedRecord }: Props) => {
+const Table = ({
+    records,
+    checkedRecordID,
+    setCheckedRecord,
+    fetchData,
+}: Props) => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
@@ -65,7 +71,10 @@ const Table = ({ records, checkedRecordID, setCheckedRecord }: Props) => {
         }
 
         setShowMessage(true);
-        setTimeout(() => setShowMessage(false), 3000);
+        setTimeout(() => {
+            setShowMessage(false);
+            fetchData();
+        }, 3000);
     };
 
     return (
