@@ -35,6 +35,7 @@ const options: ApexOptions = {
     yaxis: {
         title: { text: "Value" },
     },
+    colors: ["#cf0000"],
 };
 
 interface Props {
