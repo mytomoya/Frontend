@@ -1,4 +1,4 @@
-import WebSocketStomp from "./HandleWebsocket";
+import WebSocketStomp from "./visualizer/HandleWebsocket";
 import style from "./scss/Container.module.scss";
 import GLTFCanvas from "./3dmodel/GLTFCanvas";
 
