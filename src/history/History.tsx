@@ -36,8 +36,9 @@ const History = () => {
         <>
             <Table
                 records={records}
-                checkedRecord={checkedRecord}
+                checkedRecordID={checkedRecord}
                 setCheckedRecord={setCheckedRecord}
+                fetchData={fetchData}
             />
             {checkedRecord !== -1 && checkedRecordID !== -1 && (
                 <LineChart item={records[checkedRecordID]} />

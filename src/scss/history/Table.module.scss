@@ -79,5 +79,9 @@
                 opacity: 0.5;
             }
         }
+
+        .response-message {
+            transition: 1s ease-in-out;
+        }
     }
 }

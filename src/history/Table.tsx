@@ -1,14 +1,25 @@
 import { Item } from "../api/Types";
 import style from "../scss/history/Table.module.scss";
 import { formatDate } from "../Helper";
+import { deleteRecord } from "../api/Handler";
+import { useState } from "react";
 
 interface Props {
     records: Item[];
-    checkedRecord: number;
+    checkedRecordID: number;
     setCheckedRecord: (checkedRecord: number) => void;
+    fetchData: () => void;
 }
 
-const Table = ({ records, checkedRecord, setCheckedRecord }: Props) => {
+const Table = ({
+    records,
+    checkedRecordID,
+    setCheckedRecord,
+    fetchData,
+}: Props) => {
+    const [showMessage, setShowMessage] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
+
     const list = (): JSX.Element => {
         return (
             <div id={style["table"]}>
@@ -23,7 +34,7 @@ const Table = ({ records, checkedRecord, setCheckedRecord }: Props) => {
                     const [day, time] = formattedDate.split(" ");
 
                     let className = `${style["item"]}`;
-                    if (value.id === checkedRecord) {
+                    if (value.id === checkedRecordID) {
                         className += ` ${style["checked"]}`;
                     }
 
@@ -46,18 +57,45 @@ const Table = ({ records, checkedRecord, setCheckedRecord }: Props) => {
     };
 
     let className = `${style["buttons"]}`;
-    if (checkedRecord === -1) {
+    if (checkedRecordID === -1) {
         className += ` ${style["disabled"]}`;
     }
+
+    const deleteData = async (id: number) => {
+        const success = await deleteRecord(id);
+
+        if (success) {
+            setMessage("Deleted successfully");
+        } else {
+            setMessage("Failed to delete");
+        }
+
+        setShowMessage(true);
+        setTimeout(() => {
+            setShowMessage(false);
+            fetchData();
+        }, 3000);
+    };
 
     return (
         <div id={style["root"]}>
             <h2>History</h2>
             {list()}
             <div className={className}>
-                <button className={`default-button ${style["delete"]}`}>
+                <button
+                    className={`default-button ${style["delete"]}`}
+                    onClick={() => deleteData(checkedRecordID)}
+                >
                     Delete
                 </button>
+                <div
+                    className={style["response-message"]}
+                    style={{
+                        opacity: showMessage ? 1 : 0,
+                    }}
+                >
+                    {message}
+                </div>
             </div>
         </div>
     );
