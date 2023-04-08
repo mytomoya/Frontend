@@ -50,3 +50,14 @@ export const getRecords = async (
         return null;
     }
 };
+
+export const deleteRecord = async (id: number): Promise<boolean> => {
+    try {
+        const response = await axios.get(endpoint + `/delete?id=${id}`);
+        console.log(`[Success] ${response}`);
+        return true;
+    } catch (error) {
+        console.log(`[Error] ${error}`);
+        return false;
+    }
+};

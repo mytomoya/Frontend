@@ -36,7 +36,7 @@ const History = () => {
         <>
             <Table
                 records={records}
-                checkedRecord={checkedRecord}
+                checkedRecordID={checkedRecord}
                 setCheckedRecord={setCheckedRecord}
             />
             {checkedRecord !== -1 && checkedRecordID !== -1 && (
