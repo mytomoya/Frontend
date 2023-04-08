@@ -80,7 +80,9 @@ const LineChart = ({ data }: Props): JSX.Element => {
                 height={400}
             />
             <div className={style["save-button-wrapper"]}>
-                <button onClick={saveData}>Save</button>
+                <button className="default-button" onClick={saveData}>
+                    Save
+                </button>
                 <div
                     className={style["response-message"]}
                     style={{

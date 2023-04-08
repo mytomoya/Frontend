@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ListOutputType } from "./Types";
 
 const endpoint = "http://localhost:8080";
 
@@ -33,5 +34,19 @@ export const save = async ({ data }: Props): Promise<boolean> => {
     } catch (error) {
         console.log(`[Error] ${error}`);
         return false;
+    }
+};
+
+export const getRecords = async (
+    offset: number
+): Promise<ListOutputType | null> => {
+    try {
+        const response = axios.get(endpoint + `/list?offset=${offset}`);
+        const data: ListOutputType = (await response).data;
+        console.log(`[Success] ${response}`);
+        return data;
+    } catch (error) {
+        console.log(`[Error] ${error}`);
+        return null;
     }
 };
