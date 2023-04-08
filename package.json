@@ -16,6 +16,7 @@
     "apexcharts": "^3.37.2",
     "fs": "^0.0.1-security",
     "net": "^1.0.2",
+    "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.2.0",
