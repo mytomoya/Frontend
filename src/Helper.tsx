@@ -1,16 +1,13 @@
-export const formatDate = (unixTime: number): string => {
-    const date = new Date(unixTime);
+export const formatDate = (jstTime: string): string => {
+    const jstDate = new Date(jstTime);
+    jstDate.setTime(jstDate.getTime() + 1000 * 60 * 60 * 9);
 
-    // Get the year, month, and day.
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
+    const year = jstDate.getFullYear().toString().padStart(4, "0");
+    const month = (jstDate.getMonth() + 1).toString().padStart(2, "0");
+    const day = jstDate.getDate().toString().padStart(2, "0");
+    const hours = jstDate.getHours().toString().padStart(2, "0");
+    const minutes = jstDate.getMinutes().toString().padStart(2, "0");
+    const seconds = jstDate.getSeconds().toString().padStart(2, "0");
 
-    // Get the hours, minutes, and seconds.
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-
-    // Return the formatted date.
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
