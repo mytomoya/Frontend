@@ -1,5 +1,9 @@
 import ApexCharts from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
+import { save } from "../api/Handler";
+import { useState } from "react";
+
+import style from "../scss/LineChart.module.scss";
 
 const TIME_RANGE_IN_MILLISECONDS = 30 * 1000;
 
@@ -38,6 +42,9 @@ interface Props {
 }
 
 const LineChart = ({ data }: Props): JSX.Element => {
+    const [showMessage, setShowMessage] = useState<boolean>(false);
+    const [message, setMessage] = useState<string>("");
+
     const series = [
         {
             name: "example name",
@@ -52,6 +59,18 @@ const LineChart = ({ data }: Props): JSX.Element => {
 
     console.log(data);
 
+    const saveData = async () => {
+        const success = await save(series[0]);
+        if (success) {
+            setMessage("Saved successfully");
+        } else {
+            setMessage("Failed to save");
+        }
+
+        setShowMessage(true);
+        setTimeout(() => setShowMessage(false), 3000);
+    };
+
     return (
         <>
             <ApexCharts
@@ -60,6 +79,17 @@ const LineChart = ({ data }: Props): JSX.Element => {
                 type="line"
                 height={400}
             />
+            <div className={style["save-button-wrapper"]}>
+                <button onClick={saveData}>Save</button>
+                <div
+                    className={style["response-message"]}
+                    style={{
+                        opacity: showMessage ? 1 : 0,
+                    }}
+                >
+                    {message}
+                </div>
+            </div>
         </>
     );
 };

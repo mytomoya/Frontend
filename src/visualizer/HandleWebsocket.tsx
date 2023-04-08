@@ -2,7 +2,7 @@ import { useState } from "react";
 import Stomp, { Frame, Message, Subscription } from "stompjs";
 import LineChart from "./LineChart";
 
-import style from "./scss/WebSocketStomp.module.scss";
+import style from "../scss/WebSocketStomp.module.scss";
 
 interface Data {
     content: number;
