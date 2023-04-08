@@ -5,6 +5,7 @@ import style from "../scss/History.module.scss";
 import { formatDate } from "../Helper";
 
 const History = () => {
+    const [checkedRecord, setCheckedRecord] = useState<number>(-1);
     const [records, setRecords] = useState<Item[]>([]);
 
     const fetchData = async (offset: number = 0) => {
@@ -20,6 +21,7 @@ const History = () => {
     useEffect(() => {
         fetchData();
     }, []);
+    console.log(checkedRecord);
 
     const list = (): JSX.Element => {
         return (
@@ -32,9 +34,17 @@ const History = () => {
                 {records.map((value, index) => {
                     const date = Date.parse(value.datetime);
                     const formattedDate = formatDate(date);
+                    let className = `${style["item"]}`;
+                    if (value.id === checkedRecord) {
+                        className += ` ${style["checked"]}`;
+                    }
 
                     return (
-                        <div key={value.id} className={style["item"]}>
+                        <div
+                            key={value.id}
+                            className={className}
+                            onClick={() => setCheckedRecord(value.id)}
+                        >
                             <div className={style["index"]}>{index + 1}</div>
                             <div className={style["record"]}>
                                 {formattedDate}
