@@ -11,9 +11,16 @@ const GLTFCanvas = (): JSX.Element => {
     return (
         <div id={style.root}>
             <h2>Animation</h2>
-            <button onClick={() => setAniamte(!animate)}>
-                {animate ? "stop" : "start"}
-            </button>
+            <label className="toggle">
+                <div className="toggle-label">Start/Stop</div>
+                <div className="toggle-button">
+                    <input
+                        type="checkbox"
+                        checked={animate}
+                        onChange={() => setAniamte(!animate)}
+                    />
+                </div>
+            </label>
             <div id={style.container}>
                 <Canvas
                     camera={{
