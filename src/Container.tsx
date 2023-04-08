@@ -12,7 +12,7 @@ const Container = (): JSX.Element => {
             <h1>Deadlift Form Checker</h1>
             <WebSocketStomp setUpdated={setUpdated} />
             <GLTFCanvas />
-            <History updated={updated} />
+            <History updated={updated} setUpdated={setUpdated} />
         </div>
     );
 };
