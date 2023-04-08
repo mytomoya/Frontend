@@ -73,7 +73,7 @@ const WebSocketStomp = () => {
                     <button
                         onClick={toggleConnection}
                         id={style["connect-button"]}
-                        className={!connected ? style.connected : ""}
+                        className={connected ? style.connected : ""}
                     >
                         {!connected ? "Connect" : "Disconnect"}
                     </button>
