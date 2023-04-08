@@ -58,16 +58,23 @@ const History = () => {
         );
     };
 
+    let className = `${style["buttons"]}`;
+    if (checkedRecord === -1) {
+        className += ` ${style["disabled"]}`;
+    }
+
     return (
         <div id={style["root"]}>
             <h2>History</h2>
             {list()}
-            <div className={style["buttons"]}>
+            <div className={className}>
                 <div>
                     <button className="default-button">Show</button>
                 </div>
                 <div>
-                    <button className={`default-button`}>Delete</button>
+                    <button className={`default-button ${style["delete"]}`}>
+                        Delete
+                    </button>
                 </div>
             </div>
         </div>

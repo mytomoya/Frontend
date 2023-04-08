@@ -73,6 +73,18 @@
 
             button {
                 width: 70px;
+
+                &.delete {
+                    background-color: #ff0505;
+                }
+            }
+        }
+
+        // When no item is selected
+        &.disabled {
+            button {
+                cursor: default;
+                opacity: 0.5;
             }
         }
     }
