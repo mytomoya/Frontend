@@ -11,3 +11,29 @@ export const formatDate = (jstTime: string): string => {
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
+
+export const getXYZ = (values: number[]): [number[], number[], number[]] => {
+    const x: number[] = [];
+    const y: number[] = [];
+    const z: number[] = [];
+
+    for (let i = 0; i < values.length; i += 3) {
+        x.push(values[i]);
+        y.push(values[i + 1]);
+        z.push(values[i + 2]);
+    }
+
+    return [x, y, z];
+};
+
+export const getValues = (x: number[], y: number[], z: number[]): number[] => {
+    const values: number[] = [];
+
+    for (let i = 0; i < x.length; i += 1) {
+        values.push(x[i]);
+        values.push(y[i]);
+        values.push(z[i]);
+    }
+
+    return values;
+};

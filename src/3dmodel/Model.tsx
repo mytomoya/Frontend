@@ -5,12 +5,14 @@ import {
     Plane,
     ContactShadows,
 } from "@react-three/drei";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { DoubleSide } from "three";
+import { DoubleSide, KeyframeTrack } from "three";
+import { getXYZ, getValues } from "../Helper";
 
 interface Props {
     animate: boolean;
+    zValues?: number[];
 }
 
 const humanModelSrc = "./model.gltf";
@@ -18,7 +20,7 @@ const barbellModelSrc = "./barbell.gltf";
 const actionName = "Animation";
 const barbellActionName = "BarbellAnimation";
 
-const Model = ({ animate }: Props): JSX.Element => {
+const Model = ({ animate, zValues }: Props): JSX.Element => {
     // Human
     const { scene, animations } = useGLTF(humanModelSrc);
     const humanRef = useRef<THREE.Group>(null);
@@ -32,6 +34,8 @@ const Model = ({ animate }: Props): JSX.Element => {
         barbellAnimations,
         barbellRef
     );
+    const [defaultPositionTrack, setDefaultPositionTrack] =
+        useState<KeyframeTrack | null>(null);
 
     // const animationSpeed = 1;
 
@@ -48,17 +52,37 @@ const Model = ({ animate }: Props): JSX.Element => {
             actions[actionName].getClip().duration;
         barbellActions[barbellActionName].play();
 
-        // Modify tracks
-        // let clip = barbellActions[barbellActionName].getClip();
-        // console.log(clip);
-        // let track = clip.tracks[0];
+        // Get position track
+        const clip = barbellActions[barbellActionName].getClip();
+        let track = clip.tracks[0];
+
+        console.log(track);
+        console.log(KeyframeTrack.toJSON(track));
+
+        // Set default positions
+        if (defaultPositionTrack == null) {
+            setDefaultPositionTrack(track);
+        }
+
+        const [defaultX, defaultY, defaultZ] =
+            defaultPositionTrack != null
+                ? getXYZ(Array.from(defaultPositionTrack.values))
+                : getXYZ(Array.from(track.values));
+        let z = zValues != null ? zValues : defaultZ;
+
+        // Update positions
+        const values = getValues(defaultX, defaultY, z);
+        for (let i = 0; i < track.values.length; i++) {
+            track.values[i] = values[i];
+        }
+
         // track.times[0] = 1;
         // track.values[0] = 1;
         // track.values[100] = -5;
         // console.log(track);
 
         // actions["Animation"].setDuration(clip.duration / animationSpeed);
-    }, [actions, barbellActions]);
+    }, [actions, barbellActions, defaultPositionTrack, zValues]);
 
     useFrame((state, delta) => {
         if (
