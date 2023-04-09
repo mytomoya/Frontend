@@ -39,6 +39,49 @@ const Model = ({ animate, zValues }: Props): JSX.Element => {
 
     // const animationSpeed = 1;
 
+    const interpolateValues = (z: number[] | undefined, defaultZ: number[]) => {
+        if (z == null || z.length == 0) {
+            return defaultZ;
+        }
+
+        const length = defaultZ.length;
+        let values: number[] = [];
+
+        // Normalize to have last value as defaultZMax
+        const defaultZMax = Math.max(...defaultZ);
+        const scale = defaultZMax / z[z.length - 1];
+        for (let i = 0; i < z.length; i++) {
+            let value = z[i] * scale;
+            values.push(value);
+        }
+
+        // Offset values
+        const offset = defaultZ[0] - values[0];
+        for (let i = 0; i < z.length; i++) {
+            values[i] += offset;
+        }
+
+        if (z.length === length) {
+            return values;
+        }
+
+        const step = (z.length - 1) / (length - 1);
+        const interpolatedValues: number[] = [values[0]];
+
+        // Interpolation
+        for (let i = 0; i < length - 1; i++) {
+            const x = i * step;
+            const j = Math.floor(x);
+            const t = x - j;
+
+            interpolatedValues.push((1 - t) * values[j] + t * values[j + 1]);
+        }
+
+        interpolatedValues.push(values[z.length - 1]);
+
+        return interpolatedValues;
+    };
+
     useEffect(() => {
         if (
             actions[actionName] == null ||
@@ -61,14 +104,14 @@ const Model = ({ animate, zValues }: Props): JSX.Element => {
 
         // Set default positions
         if (defaultPositionTrack == null) {
-            setDefaultPositionTrack(track);
+            setDefaultPositionTrack(track.clone());
         }
 
         const [defaultX, defaultY, defaultZ] =
             defaultPositionTrack != null
                 ? getXYZ(Array.from(defaultPositionTrack.values))
                 : getXYZ(Array.from(track.values));
-        let z = zValues != null ? zValues : defaultZ;
+        let z = interpolateValues(zValues, defaultZ);
 
         // Update positions
         const values = getValues(defaultX, defaultY, z);

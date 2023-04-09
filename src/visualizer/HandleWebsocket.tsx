@@ -6,21 +6,21 @@ import style from "../scss/WebSocketStomp.module.scss";
 
 interface Props {
     setUpdated: (updated: boolean) => void;
+    values: number[];
+    setValues: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 interface Data {
     content: number;
 }
 
-const WebSocketStomp = ({ setUpdated }: Props) => {
+const WebSocketStomp = ({ setUpdated, values, setValues }: Props) => {
     const topic = "/topic/value";
     const endpoint = "ws://localhost:8080/endpoint";
 
     const [connected, setConnected] = useState<boolean>(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [subscription, setSubscription] = useState<Subscription | null>(null);
-
-    const [values, setValues] = useState<number[]>([]);
 
     const connect = () => {
         const socket = new WebSocket(endpoint);
@@ -41,7 +41,7 @@ const WebSocketStomp = ({ setUpdated }: Props) => {
                     const value = item["content"];
 
                     if (!isNaN(value)) {
-                        setValues((messages) => [...messages, value]);
+                        setValues((oldValues) => [...oldValues, value]);
                     }
                 }
             );
