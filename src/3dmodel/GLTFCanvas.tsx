@@ -5,7 +5,11 @@ import { Suspense, useState } from "react";
 
 import style from "../scss/GLTFCanvas.module.scss";
 
-const GLTFCanvas = (): JSX.Element => {
+interface Props {
+    values: number[];
+}
+
+const GLTFCanvas = ({ values }: Props): JSX.Element => {
     const [animate, setAniamte] = useState<boolean>(true);
 
     return (
@@ -33,7 +37,7 @@ const GLTFCanvas = (): JSX.Element => {
                     <ambientLight />
                     {/* <pointLight position={[10, 10, 10]} /> */}
                     <Suspense fallback={null}>
-                        <Model animate={animate} />
+                        <Model animate={animate} zValues={values} />
                     </Suspense>
                 </Canvas>
             </div>
