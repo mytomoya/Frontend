@@ -93,7 +93,11 @@ const Visualizer = ({
                         />
                     </div>
                 </label>
-                <LineChart yValues={yValues} setUpdated={setUpdated} />
+                <LineChart
+                    yValues={yValues}
+                    zValues={zValues}
+                    setUpdated={setUpdated}
+                />
             </div>
         </>
     );
