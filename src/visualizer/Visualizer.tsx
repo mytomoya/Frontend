@@ -37,6 +37,7 @@ const Visualizer = ({
     );
 
     const disconnect = (
+        topic: string,
         subscription: Stomp.Subscription | null,
         stompClient: Stomp.Client | null,
         setConnected: (value: React.SetStateAction<boolean>) => void
@@ -47,7 +48,7 @@ const Visualizer = ({
 
         if (stompClient != null) {
             stompClient.disconnect(() => {
-                console.log("disconnect");
+                console.log(`disconnect from ${topic}`);
                 setConnected(false);
             });
         }
@@ -55,7 +56,7 @@ const Visualizer = ({
 
     const toggleConnection = () => {
         if (yConnected) {
-            disconnect(ySubscription, yStompClient, setYConnected);
+            disconnect(yTopic, ySubscription, yStompClient, setYConnected);
         } else {
             connect({
                 topic: yTopic,
@@ -66,7 +67,7 @@ const Visualizer = ({
             });
         }
         if (zConnected) {
-            disconnect(zSubscription, zStompClient, setZConnected);
+            disconnect(zTopic, zSubscription, zStompClient, setZConnected);
         } else {
             connect({
                 topic: zTopic,
