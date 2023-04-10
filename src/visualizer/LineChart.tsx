@@ -38,11 +38,11 @@ const options: ApexOptions = {
 };
 
 interface Props {
-    data: number[];
+    yValues: number[];
     setUpdated: (updated: boolean) => void;
 }
 
-const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
+const LineChart = ({ yValues: data, setUpdated }: Props): JSX.Element => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 

@@ -7,20 +7,39 @@ import style from "../scss/WebSocketStomp.module.scss";
 
 interface Props {
     setUpdated: (updated: boolean) => void;
-    values: number[];
-    setValues: React.Dispatch<React.SetStateAction<number[]>>;
+    yValues: number[];
+    setYValues: React.Dispatch<React.SetStateAction<number[]>>;
+    zValues: number[];
+    setZValues: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const Visualizer = ({ setUpdated, values, setValues }: Props) => {
-    const topic = "/topic/value";
+const Visualizer = ({
+    setUpdated,
+    yValues,
+    setYValues,
+    zValues,
+    setZValues,
+}: Props) => {
+    // For y values
+    const yTopic = "/topic/y";
+    const [yConnected, setYConnected] = useState<boolean>(false);
+    const [yStompClient, setYStompClient] = useState<Stomp.Client | null>(null);
+    const [ySubscription, setYSubscription] = useState<Subscription | null>(
+        null
+    );
 
-    const [connected, setConnected] = useState<boolean>(false);
-    const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
-    const [subscription, setSubscription] = useState<Subscription | null>(null);
+    // For z values
+    const zTopic = "/topic/z";
+    const [zConnected, setZConnected] = useState<boolean>(false);
+    const [zStompClient, setZStompClient] = useState<Stomp.Client | null>(null);
+    const [zSubscription, setZSubscription] = useState<Subscription | null>(
+        null
+    );
 
     const disconnect = (
         subscription: Stomp.Subscription | null,
-        stompClient: Stomp.Client | null
+        stompClient: Stomp.Client | null,
+        setConnected: (value: React.SetStateAction<boolean>) => void
     ) => {
         if (subscription) {
             subscription.unsubscribe();
@@ -35,15 +54,23 @@ const Visualizer = ({ setUpdated, values, setValues }: Props) => {
     };
 
     const toggleConnection = () => {
-        if (connected) {
-            disconnect(subscription, stompClient);
+        if (yConnected) {
+            disconnect(ySubscription, yStompClient, setYConnected);
+            disconnect(zSubscription, zStompClient, setZConnected);
         } else {
             connect({
-                topic: topic,
-                setSubscription: setSubscription,
-                setConnected: setConnected,
-                setValues: setValues,
-                setStompClient: setStompClient,
+                topic: yTopic,
+                setSubscription: setYSubscription,
+                setConnected: setYConnected,
+                setValues: setYValues,
+                setStompClient: setYStompClient,
+            });
+            connect({
+                topic: zTopic,
+                setSubscription: setZSubscription,
+                setConnected: setZConnected,
+                setValues: setZValues,
+                setStompClient: setZStompClient,
             });
         }
     };
@@ -57,12 +84,12 @@ const Visualizer = ({ setUpdated, values, setValues }: Props) => {
                     <div className="toggle-button">
                         <input
                             type="checkbox"
-                            checked={connected}
+                            checked={yConnected || zConnected}
                             onChange={toggleConnection}
                         />
                     </div>
                 </label>
-                <LineChart data={values} setUpdated={setUpdated} />
+                <LineChart yValues={yValues} setUpdated={setUpdated} />
             </div>
         </>
     );

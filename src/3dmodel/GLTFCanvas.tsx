@@ -6,10 +6,10 @@ import { Suspense, useState } from "react";
 import style from "../scss/GLTFCanvas.module.scss";
 
 interface Props {
-    values: number[];
+    yValues: number[];
 }
 
-const GLTFCanvas = ({ values }: Props): JSX.Element => {
+const GLTFCanvas = ({ yValues: values }: Props): JSX.Element => {
     const [animate, setAniamte] = useState<boolean>(true);
 
     return (
