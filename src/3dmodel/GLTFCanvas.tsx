@@ -9,7 +9,7 @@ interface Props {
     yValues: number[];
 }
 
-const GLTFCanvas = ({ yValues: values }: Props): JSX.Element => {
+const GLTFCanvas = ({ yValues }: Props): JSX.Element => {
     const [animate, setAniamte] = useState<boolean>(true);
 
     return (
@@ -37,7 +37,7 @@ const GLTFCanvas = ({ yValues: values }: Props): JSX.Element => {
                     <ambientLight />
                     {/* <pointLight position={[10, 10, 10]} /> */}
                     <Suspense fallback={null}>
-                        <Model animate={animate} zValues={values} />
+                        <Model animate={animate} zValues={yValues} />
                     </Suspense>
                 </Canvas>
             </div>
