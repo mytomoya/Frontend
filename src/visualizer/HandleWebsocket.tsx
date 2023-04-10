@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Stomp, { Frame, Message, Subscription } from "stompjs";
+import Stomp, { Subscription } from "stompjs";
 import LineChart from "./LineChart";
+import { connect } from "../websocket/connect";
 
 import style from "../scss/WebSocketStomp.module.scss";
 
@@ -16,57 +17,38 @@ interface Data {
 
 const WebSocketStomp = ({ setUpdated, values, setValues }: Props) => {
     const topic = "/topic/value";
-    const endpoint = "ws://localhost:8080/endpoint";
 
     const [connected, setConnected] = useState<boolean>(false);
     const [stompClient, setStompClient] = useState<Stomp.Client | null>(null);
     const [subscription, setSubscription] = useState<Subscription | null>(null);
 
-    const connect = () => {
-        const socket = new WebSocket(endpoint);
-        const newStompClient = Stomp.over(socket);
+    const disconnect = (
+        subscription: Stomp.Subscription | null,
+        stompClient: Stomp.Client | null
+    ) => {
+        if (subscription) {
+            subscription.unsubscribe();
+        }
 
-        newStompClient.debug = () => {};
-
-        newStompClient.connect({}, (frame?: Frame) => {
-            if (frame == null) {
-                return;
-            }
-            const subscription = newStompClient.subscribe(
-                topic,
-                (newMessage: Message) => {
-                    console.log("Received: " + newMessage.body);
-
-                    const item = JSON.parse(newMessage.body) as Data;
-                    const value = item["content"];
-
-                    if (!isNaN(value)) {
-                        setValues((oldValues) => [...oldValues, value]);
-                    }
-                }
-            );
-            setSubscription(subscription);
-            setConnected(true);
-            setValues((values) => []);
-        });
-
-        setStompClient(newStompClient);
+        if (stompClient != null) {
+            stompClient.disconnect(() => {
+                console.log("disconnect");
+                setConnected(false);
+            });
+        }
     };
 
     const toggleConnection = () => {
         if (connected) {
-            if (subscription) {
-                subscription.unsubscribe();
-            }
-
-            if (stompClient != null) {
-                stompClient.disconnect(() => {
-                    console.log("disconnect");
-                    setConnected(false);
-                });
-            }
+            disconnect(subscription, stompClient);
         } else {
-            connect();
+            connect({
+                topic: topic,
+                setSubscription: setSubscription,
+                setConnected: setConnected,
+                setValues: setValues,
+                setStompClient: setStompClient,
+            });
         }
     };
 
