@@ -11,10 +11,6 @@ interface Props {
     setValues: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-interface Data {
-    content: number;
-}
-
 const WebSocketStomp = ({ setUpdated, values, setValues }: Props) => {
     const topic = "/topic/value";
 
