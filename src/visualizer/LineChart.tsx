@@ -49,6 +49,14 @@ const options: ApexOptions = {
             },
         ],
     },
+    legend: {
+        onItemClick: {
+            toggleDataSeries: true,
+        },
+        onItemHover: {
+            highlightDataSeries: true,
+        },
+    },
 };
 
 interface Props {
