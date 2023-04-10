@@ -35,6 +35,20 @@ const options: ApexOptions = {
     yaxis: {
         title: { text: "Value" },
     },
+    annotations: {
+        yaxis: [
+            {
+                // TODO: change to actual values
+                y: 8600,
+                y2: 10000,
+                borderColor: "#000",
+                fillColor: "#FEB019",
+                label: {
+                    text: "safe range",
+                },
+            },
+        ],
+    },
 };
 
 interface Props {
