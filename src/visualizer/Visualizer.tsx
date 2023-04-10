@@ -11,7 +11,7 @@ interface Props {
     setValues: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-const WebSocketStomp = ({ setUpdated, values, setValues }: Props) => {
+const Visualizer = ({ setUpdated, values, setValues }: Props) => {
     const topic = "/topic/value";
 
     const [connected, setConnected] = useState<boolean>(false);
@@ -68,4 +68,4 @@ const WebSocketStomp = ({ setUpdated, values, setValues }: Props) => {
     );
 };
 
-export default WebSocketStomp;
+export default Visualizer;
