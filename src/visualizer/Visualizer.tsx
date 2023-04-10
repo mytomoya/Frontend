@@ -56,7 +56,6 @@ const Visualizer = ({
     const toggleConnection = () => {
         if (yConnected) {
             disconnect(ySubscription, yStompClient, setYConnected);
-            disconnect(zSubscription, zStompClient, setZConnected);
         } else {
             connect({
                 topic: yTopic,
@@ -65,6 +64,10 @@ const Visualizer = ({
                 setValues: setYValues,
                 setStompClient: setYStompClient,
             });
+        }
+        if (zConnected) {
+            disconnect(zSubscription, zStompClient, setZConnected);
+        } else {
             connect({
                 topic: zTopic,
                 setSubscription: setZSubscription,
