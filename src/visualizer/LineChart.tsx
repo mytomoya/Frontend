@@ -21,7 +21,7 @@ const options: ApexOptions = {
         },
     },
     tooltip: {
-        enabled: true,
+        enabled: false,
     },
     xaxis: {
         // range: TIME_RANGE_IN_MILLISECONDS,
