@@ -42,14 +42,14 @@ interface Props {
     setUpdated: (updated: boolean) => void;
 }
 
-const LineChart = ({ yValues: data, setUpdated }: Props): JSX.Element => {
+const LineChart = ({ yValues, setUpdated }: Props): JSX.Element => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
     const series = [
         {
             name: "example name",
-            data: data.map((value, index) => {
+            data: yValues.map((value, index) => {
                 return {
                     x: index,
                     y: value,
@@ -58,7 +58,7 @@ const LineChart = ({ yValues: data, setUpdated }: Props): JSX.Element => {
         },
     ];
 
-    console.log(data);
+    console.log(yValues);
 
     const saveData = async () => {
         const success = await save(series[0]);
