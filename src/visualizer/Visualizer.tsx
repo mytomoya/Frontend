@@ -15,6 +15,8 @@ interface Props {
     setYAccValues: React.Dispatch<React.SetStateAction<number[]>>;
     zAccValues: number[];
     setZAccValues: React.Dispatch<React.SetStateAction<number[]>>;
+    yCorrectValues: boolean[];
+    setYCorrectValues: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 const Visualizer = ({
@@ -27,6 +29,8 @@ const Visualizer = ({
     setYAccValues,
     zAccValues,
     setZAccValues,
+    yCorrectValues,
+    setYCorrectValues,
 }: Props) => {
     // For time values
     const timeTopic = "/topic/time";
@@ -61,6 +65,14 @@ const Visualizer = ({
         null
     );
     const [zAccSubscription, setZAccSubscription] =
+        useState<Subscription | null>(null);
+
+    // For y_correct values
+    const yCorrectTopic = "/topic/y_correct";
+    const [yCorrectConnected, setYCorrectConnected] = useState<boolean>(false);
+    const [yCorrectStompClient, setYCorrectStompClient] =
+        useState<Stomp.Client | null>(null);
+    const [yCorrectSubscription, setYCorrectSubscription] =
         useState<Subscription | null>(null);
 
     const disconnect = (
@@ -144,6 +156,22 @@ const Visualizer = ({
                 setConnected: setZAccConnected,
                 setValues: setZAccValues,
                 setStompClient: setZAccStompClient,
+            });
+        }
+        if (yCorrectConnected) {
+            disconnect(
+                yCorrectTopic,
+                yCorrectSubscription,
+                yCorrectStompClient,
+                setYCorrectConnected
+            );
+        } else {
+            connect({
+                topic: yCorrectTopic,
+                setSubscription: setYCorrectSubscription,
+                setConnected: setYCorrectConnected,
+                setValues: setYCorrectValues,
+                setStompClient: setYCorrectStompClient,
             });
         }
     };
