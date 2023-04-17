@@ -20,21 +20,23 @@ const Visualizer = ({
     zValues,
     setZValues,
 }: Props) => {
-    // For y values
-    const yTopic = "/topic/y";
-    const [yConnected, setYConnected] = useState<boolean>(false);
-    const [yStompClient, setYStompClient] = useState<Stomp.Client | null>(null);
-    const [ySubscription, setYSubscription] = useState<Subscription | null>(
+    // For y_acc values
+    const yAccTopic = "/topic/y_acc";
+    const [yAccConnected, setYAccConnected] = useState<boolean>(false);
+    const [yAccStompClient, setYAccStompClient] = useState<Stomp.Client | null>(
         null
     );
+    const [yAccSubscription, setAccYSubscription] =
+        useState<Subscription | null>(null);
 
-    // For z values
-    const zTopic = "/topic/z";
-    const [zConnected, setZConnected] = useState<boolean>(false);
-    const [zStompClient, setZStompClient] = useState<Stomp.Client | null>(null);
-    const [zSubscription, setZSubscription] = useState<Subscription | null>(
+    // For z_acc values
+    const zAccTopic = "/topic/z_acc";
+    const [zAccConnected, setZAccConnected] = useState<boolean>(false);
+    const [zAccStompClient, setZAccStompClient] = useState<Stomp.Client | null>(
         null
     );
+    const [zAccSubscription, setZAccSubscription] =
+        useState<Subscription | null>(null);
 
     const disconnect = (
         topic: string,
@@ -55,26 +57,36 @@ const Visualizer = ({
     };
 
     const toggleConnection = () => {
-        if (yConnected) {
-            disconnect(yTopic, ySubscription, yStompClient, setYConnected);
+        if (yAccConnected) {
+            disconnect(
+                yAccTopic,
+                yAccSubscription,
+                yAccStompClient,
+                setYAccConnected
+            );
         } else {
             connect({
-                topic: yTopic,
-                setSubscription: setYSubscription,
-                setConnected: setYConnected,
+                topic: yAccTopic,
+                setSubscription: setAccYSubscription,
+                setConnected: setYAccConnected,
                 setValues: setYValues,
-                setStompClient: setYStompClient,
+                setStompClient: setYAccStompClient,
             });
         }
-        if (zConnected) {
-            disconnect(zTopic, zSubscription, zStompClient, setZConnected);
+        if (zAccConnected) {
+            disconnect(
+                zAccTopic,
+                zAccSubscription,
+                zAccStompClient,
+                setZAccConnected
+            );
         } else {
             connect({
-                topic: zTopic,
-                setSubscription: setZSubscription,
-                setConnected: setZConnected,
+                topic: zAccTopic,
+                setSubscription: setZAccSubscription,
+                setConnected: setZAccConnected,
                 setValues: setZValues,
-                setStompClient: setZStompClient,
+                setStompClient: setZAccStompClient,
             });
         }
     };
@@ -88,7 +100,7 @@ const Visualizer = ({
                     <div className="toggle-button">
                         <input
                             type="checkbox"
-                            checked={yConnected || zConnected}
+                            checked={yAccConnected || zAccConnected}
                             onChange={toggleConnection}
                         />
                     </div>
