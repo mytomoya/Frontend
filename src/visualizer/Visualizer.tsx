@@ -9,6 +9,8 @@ interface Props {
     setUpdated: (updated: boolean) => void;
     setTime: React.Dispatch<React.SetStateAction<number[]>>;
     time: number[];
+    setActivities: React.Dispatch<React.SetStateAction<boolean[]>>;
+    activities: boolean[];
     yAccValues: number[];
     setYAccValues: React.Dispatch<React.SetStateAction<number[]>>;
     zAccValues: number[];
@@ -19,6 +21,8 @@ const Visualizer = ({
     setUpdated,
     setTime,
     time,
+    activities,
+    setActivities,
     yAccValues,
     setYAccValues,
     zAccValues,
@@ -31,6 +35,14 @@ const Visualizer = ({
         null
     );
     const [timeSubscription, setTimeSubscription] =
+        useState<Subscription | null>(null);
+
+    // For activity values
+    const activityTopic = "/topic/activity";
+    const [activityConnected, setActivityConnected] = useState<boolean>(false);
+    const [activityStompClient, setActivityStompClient] =
+        useState<Stomp.Client | null>(null);
+    const [activitySubscription, setActivitySubscription] =
         useState<Subscription | null>(null);
 
     // For y_acc values
@@ -84,6 +96,22 @@ const Visualizer = ({
                 setConnected: setTimeConnected,
                 setValues: setTime,
                 setStompClient: setTimeStompClient,
+            });
+        }
+        if (activityConnected) {
+            disconnect(
+                activityTopic,
+                activitySubscription,
+                activityStompClient,
+                setActivityConnected
+            );
+        } else {
+            connect({
+                topic: activityTopic,
+                setSubscription: setActivitySubscription,
+                setConnected: setActivityConnected,
+                setValues: setActivities,
+                setStompClient: setActivityStompClient,
             });
         }
         if (yAccConnected) {

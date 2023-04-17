@@ -7,6 +7,7 @@ import { useState } from "react";
 const Container = (): JSX.Element => {
     const [updated, setUpdated] = useState<boolean>(false);
     const [time, setTime] = useState<number[]>([]);
+    const [activities, setActivities] = useState<boolean[]>([]);
     const [yAccValues, setYAccValues] = useState<number[]>([]);
     const [zAccValues, setZAccValues] = useState<number[]>([]);
 
@@ -16,6 +17,8 @@ const Container = (): JSX.Element => {
             <Visualizer
                 setTime={setTime}
                 time={time}
+                activities={activities}
+                setActivities={setActivities}
                 setUpdated={setUpdated}
                 yAccValues={yAccValues}
                 setYAccValues={setYAccValues}
