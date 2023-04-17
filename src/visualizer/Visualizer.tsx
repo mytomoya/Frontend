@@ -7,18 +7,18 @@ import style from "../scss/WebSocketStomp.module.scss";
 
 interface Props {
     setUpdated: (updated: boolean) => void;
-    yValues: number[];
-    setYValues: React.Dispatch<React.SetStateAction<number[]>>;
-    zValues: number[];
-    setZValues: React.Dispatch<React.SetStateAction<number[]>>;
+    yAccValues: number[];
+    setYAccValues: React.Dispatch<React.SetStateAction<number[]>>;
+    zAccValues: number[];
+    setZAccValues: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const Visualizer = ({
     setUpdated,
-    yValues,
-    setYValues,
-    zValues,
-    setZValues,
+    yAccValues,
+    setYAccValues,
+    zAccValues,
+    setZAccValues,
 }: Props) => {
     // For y_acc values
     const yAccTopic = "/topic/y_acc";
@@ -69,7 +69,7 @@ const Visualizer = ({
                 topic: yAccTopic,
                 setSubscription: setAccYSubscription,
                 setConnected: setYAccConnected,
-                setValues: setYValues,
+                setValues: setYAccValues,
                 setStompClient: setYAccStompClient,
             });
         }
@@ -85,7 +85,7 @@ const Visualizer = ({
                 topic: zAccTopic,
                 setSubscription: setZAccSubscription,
                 setConnected: setZAccConnected,
-                setValues: setZValues,
+                setValues: setZAccValues,
                 setStompClient: setZAccStompClient,
             });
         }
@@ -106,8 +106,8 @@ const Visualizer = ({
                     </div>
                 </label>
                 <LineChart
-                    yValues={yValues}
-                    zValues={zValues}
+                    yAccValues={yAccValues}
+                    zAccValues={zAccValues}
                     setUpdated={setUpdated}
                 />
             </div>

@@ -6,20 +6,20 @@ import { useState } from "react";
 
 const Container = (): JSX.Element => {
     const [updated, setUpdated] = useState<boolean>(false);
-    const [yValues, setYValues] = useState<number[]>([]);
-    const [zValues, setZValues] = useState<number[]>([]);
+    const [yAccValues, setYAccValues] = useState<number[]>([]);
+    const [zAccValues, setZAccValues] = useState<number[]>([]);
 
     return (
         <div id={style.container}>
             <h1>Deadlift Form Checker</h1>
             <Visualizer
                 setUpdated={setUpdated}
-                yValues={yValues}
-                setYValues={setYValues}
-                zValues={zValues}
-                setZValues={setZValues}
+                yAccValues={yAccValues}
+                setYAccValues={setYAccValues}
+                zAccValues={zAccValues}
+                setZAccValues={setZAccValues}
             />
-            <GLTFCanvas yValues={yValues} />
+            <GLTFCanvas yAccValues={yAccValues} />
             <History updated={updated} setUpdated={setUpdated} />
         </div>
     );
