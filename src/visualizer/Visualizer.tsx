@@ -17,6 +17,8 @@ interface Props {
     setZAccValues: React.Dispatch<React.SetStateAction<number[]>>;
     yCorrectValues: boolean[];
     setYCorrectValues: React.Dispatch<React.SetStateAction<boolean[]>>;
+    zCorrectValues: boolean[];
+    setZCorrectValues: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 const Visualizer = ({
@@ -31,6 +33,8 @@ const Visualizer = ({
     setZAccValues,
     yCorrectValues,
     setYCorrectValues,
+    zCorrectValues,
+    setZCorrectValues,
 }: Props) => {
     // For time values
     const timeTopic = "/topic/time";
@@ -73,6 +77,14 @@ const Visualizer = ({
     const [yCorrectStompClient, setYCorrectStompClient] =
         useState<Stomp.Client | null>(null);
     const [yCorrectSubscription, setYCorrectSubscription] =
+        useState<Subscription | null>(null);
+
+    // For z_correct values
+    const zCorrectTopic = "/topic/z_correct";
+    const [zCorrectConnected, setZCorrectConnected] = useState<boolean>(false);
+    const [zCorrectStompClient, setZCorrectStompClient] =
+        useState<Stomp.Client | null>(null);
+    const [zCorrectSubscription, setZCorrectSubscription] =
         useState<Subscription | null>(null);
 
     const disconnect = (
@@ -172,6 +184,22 @@ const Visualizer = ({
                 setConnected: setYCorrectConnected,
                 setValues: setYCorrectValues,
                 setStompClient: setYCorrectStompClient,
+            });
+        }
+        if (zCorrectConnected) {
+            disconnect(
+                zCorrectTopic,
+                zCorrectSubscription,
+                zCorrectStompClient,
+                setZCorrectConnected
+            );
+        } else {
+            connect({
+                topic: zCorrectTopic,
+                setSubscription: setZCorrectSubscription,
+                setConnected: setZCorrectConnected,
+                setValues: setZCorrectValues,
+                setStompClient: setZCorrectStompClient,
             });
         }
     };

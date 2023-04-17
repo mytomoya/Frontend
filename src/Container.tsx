@@ -11,6 +11,7 @@ const Container = (): JSX.Element => {
     const [yAccValues, setYAccValues] = useState<number[]>([]);
     const [zAccValues, setZAccValues] = useState<number[]>([]);
     const [yCorrectValues, setYCorrectValues] = useState<boolean[]>([]);
+    const [zCorrectValues, setZCorrectValues] = useState<boolean[]>([]);
 
     return (
         <div id={style.container}>
@@ -22,6 +23,8 @@ const Container = (): JSX.Element => {
                 setActivities={setActivities}
                 yCorrectValues={yCorrectValues}
                 setYCorrectValues={setYCorrectValues}
+                zCorrectValues={zCorrectValues}
+                setZCorrectValues={setZCorrectValues}
                 setUpdated={setUpdated}
                 yAccValues={yAccValues}
                 setYAccValues={setYAccValues}
