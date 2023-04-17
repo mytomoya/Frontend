@@ -60,12 +60,14 @@ const options: ApexOptions = {
 };
 
 interface Props {
+    time: number[];
     yAccValues: number[];
     zAccValues: number[];
     setUpdated: (updated: boolean) => void;
 }
 
 const LineChart = ({
+    time,
     yAccValues,
     zAccValues,
     setUpdated,
@@ -76,19 +78,19 @@ const LineChart = ({
     const series = [
         {
             name: "y",
-            data: yAccValues.map((value, index) => {
+            data: time.map((value, index) => {
                 return {
-                    x: index,
-                    y: value,
+                    x: value,
+                    y: index < yAccValues.length ? yAccValues[index] : 0,
                 };
             }),
         },
         {
             name: "z",
-            data: zAccValues.map((value, index) => {
+            data: time.map((value, index) => {
                 return {
-                    x: index,
-                    y: value,
+                    x: value,
+                    y: index < zAccValues.length ? zAccValues[index] : 0,
                 };
             }),
         },

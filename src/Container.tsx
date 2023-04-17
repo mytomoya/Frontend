@@ -6,6 +6,7 @@ import { useState } from "react";
 
 const Container = (): JSX.Element => {
     const [updated, setUpdated] = useState<boolean>(false);
+    const [time, setTime] = useState<number[]>([]);
     const [yAccValues, setYAccValues] = useState<number[]>([]);
     const [zAccValues, setZAccValues] = useState<number[]>([]);
 
@@ -13,6 +14,8 @@ const Container = (): JSX.Element => {
         <div id={style.container}>
             <h1>Deadlift Form Checker</h1>
             <Visualizer
+                setTime={setTime}
+                time={time}
                 setUpdated={setUpdated}
                 yAccValues={yAccValues}
                 setYAccValues={setYAccValues}

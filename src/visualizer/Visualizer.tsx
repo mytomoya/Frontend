@@ -7,6 +7,8 @@ import style from "../scss/WebSocketStomp.module.scss";
 
 interface Props {
     setUpdated: (updated: boolean) => void;
+    setTime: React.Dispatch<React.SetStateAction<number[]>>;
+    time: number[];
     yAccValues: number[];
     setYAccValues: React.Dispatch<React.SetStateAction<number[]>>;
     zAccValues: number[];
@@ -15,11 +17,22 @@ interface Props {
 
 const Visualizer = ({
     setUpdated,
+    setTime,
+    time,
     yAccValues,
     setYAccValues,
     zAccValues,
     setZAccValues,
 }: Props) => {
+    // For time values
+    const timeTopic = "/topic/time";
+    const [timeConnected, setTimeConnected] = useState<boolean>(false);
+    const [timeStompClient, setTimeStompClient] = useState<Stomp.Client | null>(
+        null
+    );
+    const [timeSubscription, setTimeSubscription] =
+        useState<Subscription | null>(null);
+
     // For y_acc values
     const yAccTopic = "/topic/y_acc";
     const [yAccConnected, setYAccConnected] = useState<boolean>(false);
@@ -57,6 +70,22 @@ const Visualizer = ({
     };
 
     const toggleConnection = () => {
+        if (timeConnected) {
+            disconnect(
+                timeTopic,
+                timeSubscription,
+                timeStompClient,
+                setTimeConnected
+            );
+        } else {
+            connect({
+                topic: timeTopic,
+                setSubscription: setTimeSubscription,
+                setConnected: setTimeConnected,
+                setValues: setTime,
+                setStompClient: setTimeStompClient,
+            });
+        }
         if (yAccConnected) {
             disconnect(
                 yAccTopic,
@@ -106,6 +135,7 @@ const Visualizer = ({
                     </div>
                 </label>
                 <LineChart
+                    time={time}
                     yAccValues={yAccValues}
                     zAccValues={zAccValues}
                     setUpdated={setUpdated}
