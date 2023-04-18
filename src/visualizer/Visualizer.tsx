@@ -2,39 +2,24 @@ import { useState } from "react";
 import Stomp, { Subscription } from "stompjs";
 import LineChart from "./LineChart";
 import { connect } from "../websocket/connect";
+import { Data } from "../Container";
 
 import style from "../scss/WebSocketStomp.module.scss";
 
 interface Props {
     setUpdated: (updated: boolean) => void;
     time: number[];
-    setTime: React.Dispatch<React.SetStateAction<number[]>>;
-    activities: boolean[];
-    setActivities: React.Dispatch<React.SetStateAction<boolean[]>>;
     yAccValues: number[];
-    setYAccValues: React.Dispatch<React.SetStateAction<number[]>>;
     zAccValues: number[];
-    setZAccValues: React.Dispatch<React.SetStateAction<number[]>>;
-    yCorrectValues: boolean[];
-    setYCorrectValues: React.Dispatch<React.SetStateAction<boolean[]>>;
-    zCorrectValues: boolean[];
-    setZCorrectValues: React.Dispatch<React.SetStateAction<boolean[]>>;
+    data: Data;
 }
 
 const Visualizer = ({
     setUpdated,
     time,
-    setTime,
-    activities,
-    setActivities,
     yAccValues,
-    setYAccValues,
     zAccValues,
-    setZAccValues,
-    yCorrectValues,
-    setYCorrectValues,
-    zCorrectValues,
-    setZCorrectValues,
+    data,
 }: Props) => {
     // For time values
     const timeTopic = "/topic/time";
@@ -118,7 +103,7 @@ const Visualizer = ({
                 topic: timeTopic,
                 setSubscription: setTimeSubscription,
                 setConnected: setTimeConnected,
-                setValues: setTime,
+                setValues: data.time.setValue,
                 setStompClient: setTimeStompClient,
             });
         }
@@ -134,7 +119,7 @@ const Visualizer = ({
                 topic: activityTopic,
                 setSubscription: setActivitySubscription,
                 setConnected: setActivityConnected,
-                setValues: setActivities,
+                setValues: data.activities.setValue,
                 setStompClient: setActivityStompClient,
             });
         }
@@ -150,7 +135,7 @@ const Visualizer = ({
                 topic: yAccTopic,
                 setSubscription: setAccYSubscription,
                 setConnected: setYAccConnected,
-                setValues: setYAccValues,
+                setValues: data.yAccValues.setValue,
                 setStompClient: setYAccStompClient,
             });
         }
@@ -166,7 +151,7 @@ const Visualizer = ({
                 topic: zAccTopic,
                 setSubscription: setZAccSubscription,
                 setConnected: setZAccConnected,
-                setValues: setZAccValues,
+                setValues: data.zAccValues.setValue,
                 setStompClient: setZAccStompClient,
             });
         }
@@ -182,7 +167,7 @@ const Visualizer = ({
                 topic: yCorrectTopic,
                 setSubscription: setYCorrectSubscription,
                 setConnected: setYCorrectConnected,
-                setValues: setYCorrectValues,
+                setValues: data.yCorrectValues.setValue,
                 setStompClient: setYCorrectStompClient,
             });
         }
@@ -198,7 +183,7 @@ const Visualizer = ({
                 topic: zCorrectTopic,
                 setSubscription: setZCorrectSubscription,
                 setConnected: setZCorrectConnected,
-                setValues: setZCorrectValues,
+                setValues: data.zCorrectValues.setValue,
                 setStompClient: setZCorrectStompClient,
             });
         }
