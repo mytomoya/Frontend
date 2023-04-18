@@ -4,36 +4,35 @@ import GLTFCanvas from "./3dmodel/GLTFCanvas";
 import History from "./history/History";
 import { useState } from "react";
 
+
+export interface Data {
+    time: number[];
+    activities: boolean[];
+    yAcc: number[];
+    zAcc: number[];
+    yCorrect: boolean[];
+    zCorrect: boolean[];
+}
+
 const Container = (): JSX.Element => {
     const [updated, setUpdated] = useState<boolean>(false);
 
     // values sent from the server
-    const [time, setTime] = useState<number[]>([]);
-    const [activities, setActivities] = useState<boolean[]>([]);
-    const [yAccValues, setYAccValues] = useState<number[]>([]);
-    const [zAccValues, setZAccValues] = useState<number[]>([]);
-    const [yCorrectValues, setYCorrectValues] = useState<boolean[]>([]);
-    const [zCorrectValues, setZCorrectValues] = useState<boolean[]>([]);
+    const [data, setData] = useState<Data>({
+        time: [],
+        activities: [],
+        yAcc: [],
+        zAcc: [],
+        yCorrect: [],
+        zCorrect: [],
+    });
+
 
     return (
         <div id={style.container}>
             <h1>Deadlift Form Checker</h1>
-            <Visualizer
-                setUpdated={setUpdated}
-                setTime={setTime}
-                time={time}
-                activities={activities}
-                setActivities={setActivities}
-                yAccValues={yAccValues}
-                setYAccValues={setYAccValues}
-                zAccValues={zAccValues}
-                setZAccValues={setZAccValues}
-                yCorrectValues={yCorrectValues}
-                setYCorrectValues={setYCorrectValues}
-                zCorrectValues={zCorrectValues}
-                setZCorrectValues={setZCorrectValues}
-            />
-            <GLTFCanvas yAccValues={yAccValues} />
+            <Visualizer setUpdated={setUpdated} data={data} setData={setData} />
+            <GLTFCanvas yAccValues={data.yAcc} />
             <History updated={updated} setUpdated={setUpdated} />
         </div>
     );
