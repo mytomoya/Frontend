@@ -4,20 +4,6 @@ import GLTFCanvas from "./3dmodel/GLTFCanvas";
 import History from "./history/History";
 import { useState } from "react";
 
-interface Item<T> {
-    value: T;
-    setValue: React.Dispatch<React.SetStateAction<T>>;
-}
-
-export interface Data {
-    time: Item<number[]>;
-    activities: Item<boolean[]>;
-    yAccValues: Item<number[]>;
-    zAccValues: Item<number[]>;
-    yCorrectValues: Item<boolean[]>;
-    zCorrectValues: Item<boolean[]>;
-}
-
 const Container = (): JSX.Element => {
     const [updated, setUpdated] = useState<boolean>(false);
 
@@ -29,24 +15,23 @@ const Container = (): JSX.Element => {
     const [yCorrectValues, setYCorrectValues] = useState<boolean[]>([]);
     const [zCorrectValues, setZCorrectValues] = useState<boolean[]>([]);
 
-    const data: Data = {
-        time: { value: time, setValue: setTime },
-        activities: { value: activities, setValue: setActivities },
-        yAccValues: { value: yAccValues, setValue: setYAccValues },
-        zAccValues: { value: zAccValues, setValue: setZAccValues },
-        yCorrectValues: { value: yCorrectValues, setValue: setYCorrectValues },
-        zCorrectValues: { value: zCorrectValues, setValue: setZCorrectValues },
-    };
-
     return (
         <div id={style.container}>
             <h1>Deadlift Form Checker</h1>
             <Visualizer
                 setUpdated={setUpdated}
+                setTime={setTime}
                 time={time}
+                activities={activities}
+                setActivities={setActivities}
                 yAccValues={yAccValues}
+                setYAccValues={setYAccValues}
                 zAccValues={zAccValues}
-                data={data}
+                setZAccValues={setZAccValues}
+                yCorrectValues={yCorrectValues}
+                setYCorrectValues={setYCorrectValues}
+                zCorrectValues={zCorrectValues}
+                setZCorrectValues={setZCorrectValues}
             />
             <GLTFCanvas yAccValues={yAccValues} />
             <History updated={updated} setUpdated={setUpdated} />
