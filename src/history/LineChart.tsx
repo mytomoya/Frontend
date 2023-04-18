@@ -42,30 +42,27 @@ interface Props {
     item: Item;
 }
 
-interface DataType {
-    x: number;
-    y: number;
-}
-
 const LineChart = ({ item }: Props): JSX.Element => {
     const data = item.dataJson;
 
-    const converToSeries = (): DataType[] => {
-        let dataList: DataType[] = [];
-        for (let i = 0; i < data.time.length; i++) {
-            dataList.push({
-                x: data.time[i],
-                y: data.values[i],
-            });
-        }
-
-        return dataList;
-    };
-
     const series = [
         {
-            name: "example name",
-            data: converToSeries(),
+            name: "y",
+            data: data.time.map((value, index) => {
+                return {
+                    x: value,
+                    y: index < data.yAcc.length ? data.yAcc[index] : 0,
+                };
+            }),
+        },
+        {
+            name: "z",
+            data: data.time.map((value, index) => {
+                return {
+                    x: value,
+                    y: index < data.zAcc.length ? data.zAcc[index] : 0,
+                };
+            }),
         },
     ];
 
