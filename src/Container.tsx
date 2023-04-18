@@ -4,6 +4,7 @@ import GLTFCanvas from "./3dmodel/GLTFCanvas";
 import History from "./history/History";
 import { useState } from "react";
 
+
 export interface Data {
     time: number[];
     activities: boolean[];
@@ -25,6 +26,7 @@ const Container = (): JSX.Element => {
         yCorrect: [],
         zCorrect: [],
     });
+
 
     return (
         <div id={style.container}>

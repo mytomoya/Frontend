@@ -2,7 +2,6 @@ import { useState } from "react";
 import Stomp, { Subscription } from "stompjs";
 import LineChart from "./LineChart";
 import { connect } from "../websocket/connect";
-import { Data } from "../Container";
 
 import style from "../scss/WebSocketStomp.module.scss";
 
