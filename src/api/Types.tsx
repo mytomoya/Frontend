@@ -1,10 +1,9 @@
+import { Data } from "../Container";
+
 export interface Item {
     id: number;
     datetime: string;
-    dataJson: {
-        time: number[];
-        values: number[];
-    };
+    dataJson: Data;
 }
 
 export interface ListOutputType {
