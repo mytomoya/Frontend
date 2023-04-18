@@ -7,10 +7,10 @@ import style from "../scss/WebSocketStomp.module.scss";
 
 interface Props {
     setUpdated: (updated: boolean) => void;
-    setTime: React.Dispatch<React.SetStateAction<number[]>>;
     time: number[];
-    setActivities: React.Dispatch<React.SetStateAction<boolean[]>>;
+    setTime: React.Dispatch<React.SetStateAction<number[]>>;
     activities: boolean[];
+    setActivities: React.Dispatch<React.SetStateAction<boolean[]>>;
     yAccValues: number[];
     setYAccValues: React.Dispatch<React.SetStateAction<number[]>>;
     zAccValues: number[];
@@ -23,8 +23,8 @@ interface Props {
 
 const Visualizer = ({
     setUpdated,
-    setTime,
     time,
+    setTime,
     activities,
     setActivities,
     yAccValues,
