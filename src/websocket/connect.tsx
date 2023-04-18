@@ -4,20 +4,20 @@ const endpoint = "ws://localhost:8080/endpoint";
 
 interface Props {
     topic: string;
-    setSubscription: (
-        value: React.SetStateAction<Stomp.Subscription | null>
-    ) => void;
-    setConnected: (value: React.SetStateAction<boolean>) => void;
-    setValues: (value: React.SetStateAction<any[]>) => void;
-    setStompClient: React.Dispatch<React.SetStateAction<Stomp.Client | null>>;
+    setSubscription: (value: Stomp.Subscription) => void;
+    setConnected: (value: boolean) => void;
+    appendValues: (value: boolean | number) => void;
+    resetValues: () => void;
+    setStompClient: (value: Stomp.Client) => void;
 }
 
 export const connect = ({
     topic,
     setSubscription,
     setConnected,
-    setValues,
     setStompClient,
+    appendValues,
+    resetValues,
 }: Props) => {
     const socket = new WebSocket(endpoint);
     const newStompClient = Stomp.over(socket);
@@ -35,14 +35,14 @@ export const connect = ({
                 const value = parseFloat(newMessage.body);
 
                 if (!isNaN(value)) {
-                    setValues((oldValues) => [...oldValues, value]);
+                    appendValues(value);
                 }
             }
         );
 
         setSubscription(subscription);
         setConnected(true);
-        setValues([]);
+        resetValues();
     });
 
     setStompClient(newStompClient);
