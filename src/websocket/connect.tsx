@@ -8,7 +8,7 @@ interface Props {
         value: React.SetStateAction<Stomp.Subscription | null>
     ) => void;
     setConnected: (value: React.SetStateAction<boolean>) => void;
-    setValues: (value: React.SetStateAction<number[]>) => void;
+    setValues: (value: React.SetStateAction<any[]>) => void;
     setStompClient: React.Dispatch<React.SetStateAction<Stomp.Client | null>>;
 }
 

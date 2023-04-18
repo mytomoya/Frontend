@@ -6,20 +6,34 @@ import { useState } from "react";
 
 const Container = (): JSX.Element => {
     const [updated, setUpdated] = useState<boolean>(false);
-    const [yValues, setYValues] = useState<number[]>([]);
-    const [zValues, setZValues] = useState<number[]>([]);
+
+    // values sent from the server
+    const [time, setTime] = useState<number[]>([]);
+    const [activities, setActivities] = useState<boolean[]>([]);
+    const [yAccValues, setYAccValues] = useState<number[]>([]);
+    const [zAccValues, setZAccValues] = useState<number[]>([]);
+    const [yCorrectValues, setYCorrectValues] = useState<boolean[]>([]);
+    const [zCorrectValues, setZCorrectValues] = useState<boolean[]>([]);
 
     return (
         <div id={style.container}>
             <h1>Deadlift Form Checker</h1>
             <Visualizer
                 setUpdated={setUpdated}
-                yValues={yValues}
-                setYValues={setYValues}
-                zValues={zValues}
-                setZValues={setZValues}
+                setTime={setTime}
+                time={time}
+                activities={activities}
+                setActivities={setActivities}
+                yAccValues={yAccValues}
+                setYAccValues={setYAccValues}
+                zAccValues={zAccValues}
+                setZAccValues={setZAccValues}
+                yCorrectValues={yCorrectValues}
+                setYCorrectValues={setYCorrectValues}
+                zCorrectValues={zCorrectValues}
+                setZCorrectValues={setZCorrectValues}
             />
-            <GLTFCanvas yValues={yValues} />
+            <GLTFCanvas yAccValues={yAccValues} />
             <History updated={updated} setUpdated={setUpdated} />
         </div>
     );

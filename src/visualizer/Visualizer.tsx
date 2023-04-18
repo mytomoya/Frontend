@@ -7,34 +7,85 @@ import style from "../scss/WebSocketStomp.module.scss";
 
 interface Props {
     setUpdated: (updated: boolean) => void;
-    yValues: number[];
-    setYValues: React.Dispatch<React.SetStateAction<number[]>>;
-    zValues: number[];
-    setZValues: React.Dispatch<React.SetStateAction<number[]>>;
+    time: number[];
+    setTime: React.Dispatch<React.SetStateAction<number[]>>;
+    activities: boolean[];
+    setActivities: React.Dispatch<React.SetStateAction<boolean[]>>;
+    yAccValues: number[];
+    setYAccValues: React.Dispatch<React.SetStateAction<number[]>>;
+    zAccValues: number[];
+    setZAccValues: React.Dispatch<React.SetStateAction<number[]>>;
+    yCorrectValues: boolean[];
+    setYCorrectValues: React.Dispatch<React.SetStateAction<boolean[]>>;
+    zCorrectValues: boolean[];
+    setZCorrectValues: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 const Visualizer = ({
     setUpdated,
-    yValues,
-    setYValues,
-    zValues,
-    setZValues,
+    time,
+    setTime,
+    activities,
+    setActivities,
+    yAccValues,
+    setYAccValues,
+    zAccValues,
+    setZAccValues,
+    yCorrectValues,
+    setYCorrectValues,
+    zCorrectValues,
+    setZCorrectValues,
 }: Props) => {
-    // For y values
-    const yTopic = "/topic/y";
-    const [yConnected, setYConnected] = useState<boolean>(false);
-    const [yStompClient, setYStompClient] = useState<Stomp.Client | null>(null);
-    const [ySubscription, setYSubscription] = useState<Subscription | null>(
+    // For time values
+    const timeTopic = "/topic/time";
+    const [timeConnected, setTimeConnected] = useState<boolean>(false);
+    const [timeStompClient, setTimeStompClient] = useState<Stomp.Client | null>(
         null
     );
+    const [timeSubscription, setTimeSubscription] =
+        useState<Subscription | null>(null);
 
-    // For z values
-    const zTopic = "/topic/z";
-    const [zConnected, setZConnected] = useState<boolean>(false);
-    const [zStompClient, setZStompClient] = useState<Stomp.Client | null>(null);
-    const [zSubscription, setZSubscription] = useState<Subscription | null>(
+    // For activity values
+    const activityTopic = "/topic/activity";
+    const [activityConnected, setActivityConnected] = useState<boolean>(false);
+    const [activityStompClient, setActivityStompClient] =
+        useState<Stomp.Client | null>(null);
+    const [activitySubscription, setActivitySubscription] =
+        useState<Subscription | null>(null);
+
+    // For y_acc values
+    const yAccTopic = "/topic/y_acc";
+    const [yAccConnected, setYAccConnected] = useState<boolean>(false);
+    const [yAccStompClient, setYAccStompClient] = useState<Stomp.Client | null>(
         null
     );
+    const [yAccSubscription, setAccYSubscription] =
+        useState<Subscription | null>(null);
+
+    // For z_acc values
+    const zAccTopic = "/topic/z_acc";
+    const [zAccConnected, setZAccConnected] = useState<boolean>(false);
+    const [zAccStompClient, setZAccStompClient] = useState<Stomp.Client | null>(
+        null
+    );
+    const [zAccSubscription, setZAccSubscription] =
+        useState<Subscription | null>(null);
+
+    // For y_correct values
+    const yCorrectTopic = "/topic/y_correct";
+    const [yCorrectConnected, setYCorrectConnected] = useState<boolean>(false);
+    const [yCorrectStompClient, setYCorrectStompClient] =
+        useState<Stomp.Client | null>(null);
+    const [yCorrectSubscription, setYCorrectSubscription] =
+        useState<Subscription | null>(null);
+
+    // For z_correct values
+    const zCorrectTopic = "/topic/z_correct";
+    const [zCorrectConnected, setZCorrectConnected] = useState<boolean>(false);
+    const [zCorrectStompClient, setZCorrectStompClient] =
+        useState<Stomp.Client | null>(null);
+    const [zCorrectSubscription, setZCorrectSubscription] =
+        useState<Subscription | null>(null);
 
     const disconnect = (
         topic: string,
@@ -55,26 +106,100 @@ const Visualizer = ({
     };
 
     const toggleConnection = () => {
-        if (yConnected) {
-            disconnect(yTopic, ySubscription, yStompClient, setYConnected);
+        if (timeConnected) {
+            disconnect(
+                timeTopic,
+                timeSubscription,
+                timeStompClient,
+                setTimeConnected
+            );
         } else {
             connect({
-                topic: yTopic,
-                setSubscription: setYSubscription,
-                setConnected: setYConnected,
-                setValues: setYValues,
-                setStompClient: setYStompClient,
+                topic: timeTopic,
+                setSubscription: setTimeSubscription,
+                setConnected: setTimeConnected,
+                setValues: setTime,
+                setStompClient: setTimeStompClient,
             });
         }
-        if (zConnected) {
-            disconnect(zTopic, zSubscription, zStompClient, setZConnected);
+        if (activityConnected) {
+            disconnect(
+                activityTopic,
+                activitySubscription,
+                activityStompClient,
+                setActivityConnected
+            );
         } else {
             connect({
-                topic: zTopic,
-                setSubscription: setZSubscription,
-                setConnected: setZConnected,
-                setValues: setZValues,
-                setStompClient: setZStompClient,
+                topic: activityTopic,
+                setSubscription: setActivitySubscription,
+                setConnected: setActivityConnected,
+                setValues: setActivities,
+                setStompClient: setActivityStompClient,
+            });
+        }
+        if (yAccConnected) {
+            disconnect(
+                yAccTopic,
+                yAccSubscription,
+                yAccStompClient,
+                setYAccConnected
+            );
+        } else {
+            connect({
+                topic: yAccTopic,
+                setSubscription: setAccYSubscription,
+                setConnected: setYAccConnected,
+                setValues: setYAccValues,
+                setStompClient: setYAccStompClient,
+            });
+        }
+        if (zAccConnected) {
+            disconnect(
+                zAccTopic,
+                zAccSubscription,
+                zAccStompClient,
+                setZAccConnected
+            );
+        } else {
+            connect({
+                topic: zAccTopic,
+                setSubscription: setZAccSubscription,
+                setConnected: setZAccConnected,
+                setValues: setZAccValues,
+                setStompClient: setZAccStompClient,
+            });
+        }
+        if (yCorrectConnected) {
+            disconnect(
+                yCorrectTopic,
+                yCorrectSubscription,
+                yCorrectStompClient,
+                setYCorrectConnected
+            );
+        } else {
+            connect({
+                topic: yCorrectTopic,
+                setSubscription: setYCorrectSubscription,
+                setConnected: setYCorrectConnected,
+                setValues: setYCorrectValues,
+                setStompClient: setYCorrectStompClient,
+            });
+        }
+        if (zCorrectConnected) {
+            disconnect(
+                zCorrectTopic,
+                zCorrectSubscription,
+                zCorrectStompClient,
+                setZCorrectConnected
+            );
+        } else {
+            connect({
+                topic: zCorrectTopic,
+                setSubscription: setZCorrectSubscription,
+                setConnected: setZCorrectConnected,
+                setValues: setZCorrectValues,
+                setStompClient: setZCorrectStompClient,
             });
         }
     };
@@ -88,14 +213,15 @@ const Visualizer = ({
                     <div className="toggle-button">
                         <input
                             type="checkbox"
-                            checked={yConnected || zConnected}
+                            checked={yAccConnected || zAccConnected}
                             onChange={toggleConnection}
                         />
                     </div>
                 </label>
                 <LineChart
-                    yValues={yValues}
-                    zValues={zValues}
+                    time={time}
+                    yAccValues={yAccValues}
+                    zAccValues={zAccValues}
                     setUpdated={setUpdated}
                 />
             </div>

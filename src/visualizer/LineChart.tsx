@@ -60,38 +60,44 @@ const options: ApexOptions = {
 };
 
 interface Props {
-    yValues: number[];
-    zValues: number[];
+    time: number[];
+    yAccValues: number[];
+    zAccValues: number[];
     setUpdated: (updated: boolean) => void;
 }
 
-const LineChart = ({ yValues, zValues, setUpdated }: Props): JSX.Element => {
+const LineChart = ({
+    time,
+    yAccValues,
+    zAccValues,
+    setUpdated,
+}: Props): JSX.Element => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
     const series = [
         {
             name: "y",
-            data: yValues.map((value, index) => {
+            data: time.map((value, index) => {
                 return {
-                    x: index,
-                    y: value,
+                    x: value,
+                    y: index < yAccValues.length ? yAccValues[index] : 0,
                 };
             }),
         },
         {
             name: "z",
-            data: zValues.map((value, index) => {
+            data: time.map((value, index) => {
                 return {
-                    x: index,
-                    y: value,
+                    x: value,
+                    y: index < zAccValues.length ? zAccValues[index] : 0,
                 };
             }),
         },
     ];
 
-    console.log(yValues);
-    console.log(zValues);
+    console.log(yAccValues);
+    console.log(zAccValues);
 
     const saveData = async () => {
         const success = await save(series[0]);
