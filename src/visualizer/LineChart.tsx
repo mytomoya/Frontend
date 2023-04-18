@@ -4,6 +4,7 @@ import { save } from "../api/Handler";
 import { useState } from "react";
 
 import style from "../scss/LineChart.module.scss";
+import { Data } from "../Container";
 
 const TIME_RANGE_IN_MILLISECONDS = 30 * 1000;
 
@@ -60,44 +61,36 @@ const options: ApexOptions = {
 };
 
 interface Props {
-    time: number[];
-    yAccValues: number[];
-    zAccValues: number[];
+    data: Data;
     setUpdated: (updated: boolean) => void;
 }
 
-const LineChart = ({
-    time,
-    yAccValues,
-    zAccValues,
-    setUpdated,
-}: Props): JSX.Element => {
+const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
 
     const series = [
         {
             name: "y",
-            data: time.map((value, index) => {
+            data: data.time.map((value, index) => {
                 return {
                     x: value,
-                    y: index < yAccValues.length ? yAccValues[index] : 0,
+                    y: index < data.yAcc.length ? data.yAcc[index] : 0,
                 };
             }),
         },
         {
             name: "z",
-            data: time.map((value, index) => {
+            data: data.time.map((value, index) => {
                 return {
                     x: value,
-                    y: index < zAccValues.length ? zAccValues[index] : 0,
+                    y: index < data.zAcc.length ? data.zAcc[index] : 0,
                 };
             }),
         },
     ];
 
-    console.log(yAccValues);
-    console.log(zAccValues);
+    console.log(data);
 
     const saveData = async () => {
         const success = await save(series[0]);

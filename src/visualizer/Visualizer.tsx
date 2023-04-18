@@ -158,12 +158,7 @@ const Visualizer = ({ setUpdated, data, setData }: Props) => {
                         />
                     </div>
                 </label>
-                <LineChart
-                    time={data.time}
-                    yAccValues={data.yAcc}
-                    zAccValues={data.zAcc}
-                    setUpdated={setUpdated}
-                />
+                <LineChart data={data} setUpdated={setUpdated} />
             </div>
         </>
     );
