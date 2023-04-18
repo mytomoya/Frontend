@@ -93,7 +93,7 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
     console.log(data);
 
     const saveData = async () => {
-        const success = await save(series[0]);
+        const success = await save(data);
         if (success) {
             setMessage("Saved successfully");
             setUpdated(true);

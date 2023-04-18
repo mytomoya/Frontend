@@ -1,33 +1,23 @@
 import axios from "axios";
 import { ListOutputType } from "./Types";
+import { Data } from "../Container";
 
 const endpoint = "http://localhost:8080";
 
-interface Props {
-    name: string;
-    data: {
-        x: number;
-        y: number;
-    }[];
-}
-
-export const save = async ({ data }: Props): Promise<boolean> => {
-    const time = data.map((value) => {
-        return value.x;
-    });
-    const values = data.map((value) => {
-        return value.y;
-    });
-
-    if (time.length === 0 || values.length === 0) {
-        console.log(`No data to send\ntime: ${time}\nvalues: ${values}`);
+export const save = async (data: Data): Promise<boolean> => {
+    if (data.time.length === 0) {
+        console.log(`No data to send`);
         return false;
     }
 
     try {
         const response = axios.post(endpoint + "/add", {
-            time: time,
-            values: values,
+            time: data.time,
+            activities: data.activities,
+            yAcc: data.yAcc,
+            zAcc: data.zAcc,
+            yCorrect: data.yCorrect,
+            zCorrect: data.zCorrect,
         });
         console.log(response);
         return true;
