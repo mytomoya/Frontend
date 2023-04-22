@@ -7,8 +7,7 @@ import style from "../scss/LineChart.module.scss";
 import { Data } from "../Container";
 
 const TIME_RANGE_IN_MILLISECONDS = 30 * 1000;
-// const THRESHOLD = 0.3;
-const THRESHOLD = 5;
+const THRESHOLD = 0.3;
 const numberOfSpans = 6;
 
 const options: ApexOptions = {
