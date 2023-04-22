@@ -107,3 +107,11 @@
         }
     }
 }
+
+
+@media screen and (max-width: 1024px) {
+    #root {
+        grid-row: 4;
+        grid-column: 1/-1;
+    }
+}
