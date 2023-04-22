@@ -14,3 +14,54 @@ $button-width: 70px;
         transition: 1s ease-in-out;
     }
 }
+
+.result-wrapper {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin: 20px 10px;
+
+    .result-container {
+        display: flex;
+        justify-content: center;
+
+        .result {
+            .score {
+                .score-label {
+                    font-size: 1.2rem;
+                    font-weight: bold;
+                }
+
+                .point {
+                    font-size: 1.3rem;
+                }
+            }
+
+            .span {
+                font-weight: bold;
+
+                .span-wrapper {
+
+                    .span-label {
+                        font-size: 1.2rem;
+                    }
+
+                    .span-name {
+                        color: rgb(206, 0, 0);
+                    }
+                }
+
+                .phase-wrapper {
+
+                    .phase-label {
+                        font-size: 1.2rem;
+                    }
+
+                    .phase-name {
+                        color: rgb(206, 0, 0);
+                    }
+                }
+            }
+        }
+    }
+}

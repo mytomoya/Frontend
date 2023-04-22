@@ -114,16 +114,17 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
 
         for (let i = 0; i < 6; i++) {
             const total = flags.reduce((accumulation, current, index) => {
-                if (index - i * chankSize < chankSize) {
-                    return accumulation;
-                }
                 if (index >= flags.length) {
                     return accumulation;
                 }
-                return accumulation + current;
+                if (i * chankSize <= index && index < (i + 1) * chankSize) {
+                    return accumulation + current;
+                }
+                return accumulation;
             }, 0);
             spanScores.push(total);
         }
+        console.log(spanScores);
 
         const index = spanScores.indexOf(Math.max(...spanScores));
         return index;
@@ -145,6 +146,7 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
 
         const _result = `${score.toFixed(2)}`;
         const worstSpan = getWorstSpan(flags);
+        console.log(worstSpan);
 
         const span =
             worstSpan < numberOfSpans / 2
@@ -163,8 +165,14 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
             score: _result,
             span: (
                 <>
-                    <div>{span}</div>
-                    <div>{phase}</div>
+                    <div className={style["span-wrapper"]}>
+                        <span className={style["span-label"]}>Span</span>:{" "}
+                        <span className={style["span-name"]}>{span}</span>
+                    </div>
+                    <div className={style["phase-wrapper"]}>
+                        <span className={style["phase-label"]}>Phase</span>:{" "}
+                        <span className={style["phase-name"]}>{phase}</span>
+                    </div>
                 </>
             ),
         };
@@ -191,13 +199,25 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
                 type="line"
                 height={400}
             />
-            <div className={style["result"]}>
-                <div className={style["score"]}>
-                    <span className={style["score-label"]}>Score</span>:{" "}
-                    {result.score} %
+            {result.score !== "" && (
+                <div className={style["result-wrapper"]}>
+                    <div className={style["result-container"]}>
+                        <div className={style["result"]}>
+                            <div className={style["score"]}>
+                                <span className={style["score-label"]}>
+                                    Score
+                                </span>
+                                :{" "}
+                                <span className={style["point"]}>
+                                    {result.score}
+                                </span>{" "}
+                                %
+                            </div>
+                            <div className={style["span"]}>{result.span}</div>
+                        </div>
+                    </div>
                 </div>
-                <div className={style["span"]}>{result.span}</div>
-            </div>
+            )}
             <div className={style["save-button-wrapper"]}>
                 <button className="default-button" onClick={saveData}>
                     Save
