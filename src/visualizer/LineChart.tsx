@@ -35,6 +35,11 @@ const options: ApexOptions = {
     },
     yaxis: {
         title: { text: "Value" },
+        labels: {
+            formatter: (value: number) => {
+                return value.toFixed(3);
+            },
+        },
     },
     annotations: {
         yaxis: [
