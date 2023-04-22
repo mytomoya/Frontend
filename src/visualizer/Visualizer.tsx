@@ -144,7 +144,7 @@ const Visualizer = ({ setUpdated, data, setData }: Props) => {
     return (
         <>
             <div id={style.root}>
-                <h2>Realtime () Visualizer</h2>
+                <h2>Realtime Acceleration Visualizer</h2>
                 <label className="toggle">
                     <div className="toggle-label">Connect</div>
                     <div className="toggle-button">

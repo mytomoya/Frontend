@@ -39,9 +39,8 @@ const options: ApexOptions = {
     annotations: {
         yaxis: [
             {
-                // TODO: change to actual values
-                y: 8600,
-                y2: 10000,
+                y: -0.3,
+                y2: 0.3,
                 borderColor: "#000",
                 fillColor: "#FEB019",
                 label: {

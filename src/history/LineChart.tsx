@@ -35,6 +35,19 @@ const options: ApexOptions = {
     yaxis: {
         title: { text: "Value" },
     },
+    annotations: {
+        yaxis: [
+            {
+                y: -0.3,
+                y2: 0.3,
+                borderColor: "#000",
+                fillColor: "#FEB019",
+                label: {
+                    text: "safe range",
+                },
+            },
+        ],
+    },
     colors: ["#cf0000"],
 };
 
