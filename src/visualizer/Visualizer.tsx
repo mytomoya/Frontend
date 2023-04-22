@@ -9,7 +9,7 @@ import style from "../scss/WebSocketStomp.module.scss";
 interface Item {
     topic: string;
     connected: boolean;
-    stoppClient: Stomp.Client | null;
+    stompClient: Stomp.Client | null;
     subscription: Subscription | null;
 }
 
@@ -33,37 +33,37 @@ const Visualizer = ({ setUpdated, data, setData }: Props) => {
         time: {
             topic: "/topic/time",
             connected: false,
-            stoppClient: null,
+            stompClient: null,
             subscription: null,
         },
         activity: {
             topic: "/topic/activity",
             connected: false,
-            stoppClient: null,
+            stompClient: null,
             subscription: null,
         },
         yAcc: {
             topic: "/topic/y_acc",
             connected: false,
-            stoppClient: null,
+            stompClient: null,
             subscription: null,
         },
         zAcc: {
             topic: "/topic/z_acc",
             connected: false,
-            stoppClient: null,
+            stompClient: null,
             subscription: null,
         },
         yCorrect: {
             topic: "/topic/y_correct",
             connected: false,
-            stoppClient: null,
+            stompClient: null,
             subscription: null,
         },
         zCorrect: {
             topic: "/topic/z_correct",
             connected: false,
-            stoppClient: null,
+            stompClient: null,
             subscription: null,
         },
     });
@@ -92,11 +92,14 @@ const Visualizer = ({ setUpdated, data, setData }: Props) => {
                 disconnect(
                     value.topic,
                     value.subscription,
-                    value.stoppClient,
+                    value.stompClient,
                     (newValue) =>
-                        setData((previous: Data) => ({
+                        setWebSocketData((previous: WebSocketData) => ({
                             ...previous,
-                            [key]: newValue,
+                            [key]: {
+                                ...previous[key as keyof typeof previous],
+                                connected: newValue,
+                            },
                         }))
                 );
             } else {
@@ -106,13 +109,15 @@ const Visualizer = ({ setUpdated, data, setData }: Props) => {
                         setWebSocketData((previous: WebSocketData) => ({
                             ...previous,
                             [key]: {
-                                subsription: newValue,
+                                ...previous[key as keyof typeof previous],
+                                subscription: newValue,
                             },
                         })),
                     setConnected: (newValue: boolean) =>
                         setWebSocketData((previous: WebSocketData) => ({
                             ...previous,
                             [key]: {
+                                ...previous[key as keyof typeof previous],
                                 connected: newValue,
                             },
                         })),
@@ -133,6 +138,7 @@ const Visualizer = ({ setUpdated, data, setData }: Props) => {
                         setWebSocketData((previous: WebSocketData) => ({
                             ...previous,
                             [key]: {
+                                ...previous[key as keyof typeof previous],
                                 stompClient: newValue,
                             },
                         })),
