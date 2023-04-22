@@ -9,6 +9,7 @@ import { Data } from "../Container";
 const TIME_RANGE_IN_MILLISECONDS = 30 * 1000;
 // const THRESHOLD = 0.3;
 const THRESHOLD = 5;
+const numberOfSpans = 6;
 
 const options: ApexOptions = {
     chart: {
@@ -61,6 +62,11 @@ const options: ApexOptions = {
     },
 };
 
+interface ResultType {
+    score: string;
+    span: JSX.Element;
+}
+
 interface Props {
     data: Data;
     setUpdated: (updated: boolean) => void;
@@ -69,7 +75,10 @@ interface Props {
 const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
-    const [result, setResult] = useState<string>("");
+    const [result, setResult] = useState<ResultType>({
+        score: "",
+        span: <></>,
+    });
 
     useEffect(() => {
         const _result = getResult(data);
@@ -99,22 +108,66 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
 
     console.log(data);
 
-    const getResult = ({ yAcc }: Data) => {
-        if (yAcc.length === 0) {
-            return "";
+    const getWorstSpan = (flags: number[]): number => {
+        const spanScores: number[] = [];
+        const chankSize = Math.floor(flags.length / numberOfSpans);
+
+        for (let i = 0; i < 6; i++) {
+            const total = flags.reduce((accumulation, current, index) => {
+                if (index - i * chankSize < chankSize) {
+                    return accumulation;
+                }
+                if (index >= flags.length) {
+                    return accumulation;
+                }
+                return accumulation + current;
+            }, 0);
+            spanScores.push(total);
         }
 
-        const numCorrect = yAcc.reduce((accumulation, current) => {
-            if (current <= THRESHOLD) {
-                accumulation += 1;
-            }
-            return accumulation;
+        const index = spanScores.indexOf(Math.max(...spanScores));
+        return index;
+    };
+
+    const getResult = ({ yAcc }: Data): ResultType => {
+        if (yAcc.length === 0) {
+            return { score: "", span: <></> };
+        }
+
+        const flags = yAcc.map((value, index): number => {
+            return value <= THRESHOLD ? 1 : 0;
+        });
+        const numCorrect = flags.reduce((accumulation, current) => {
+            return accumulation + current;
         }, 0);
+
         const score = (numCorrect / yAcc.length) * 100;
 
         const _result = `Score: ${score.toFixed(2)} %`;
+        const worstSpan = getWorstSpan(flags);
 
-        return _result;
+        const span =
+            worstSpan < numberOfSpans / 2
+                ? "During Lift up"
+                : "During Lift down";
+        let phase = "";
+        if (worstSpan === 0 || worstSpan === 3) {
+            phase += "Beggining of the exercise";
+        } else if (worstSpan === 1 || worstSpan === 4) {
+            phase += "Middle of the exercise";
+        } else {
+            phase += "At the End of the exercise";
+        }
+
+        return {
+            score: _result,
+            span: (
+                <>
+                    <div>{span}</div>
+                    <div>{phase}</div>
+                </>
+            ),
+        };
     };
 
     const saveData = async () => {
@@ -138,7 +191,10 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
                 type="line"
                 height={400}
             />
-            <div className={style["result"]}>{result}</div>
+            <div className={style["result"]}>
+                <div className={style["score"]}>{result.score}</div>
+                <div className={style["span"]}>{result.span}</div>
+            </div>
             <div className={style["save-button-wrapper"]}>
                 <button className="default-button" onClick={saveData}>
                     Save
