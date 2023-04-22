@@ -89,12 +89,15 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
         setResult(_result);
     }, [data]);
 
+    let totalTime = 0;
+    let time = [0, ...data.time.map((value) => (totalTime += value))];
+
     const series = [
         {
             name: "y",
             data: data.time.map((value, index) => {
                 return {
-                    x: value,
+                    x: time[index],
                     y: index < data.yAcc.length ? data.yAcc[index] : 0,
                 };
             }),
@@ -103,7 +106,7 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
             name: "z",
             data: data.time.map((value, index) => {
                 return {
-                    x: value,
+                    x: time[index],
                     y: index < data.zAcc.length ? data.zAcc[index] : 0,
                 };
             }),
