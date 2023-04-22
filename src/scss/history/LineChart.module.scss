@@ -3,3 +3,11 @@
         text-align: center;
     }
 }
+
+
+@media screen and (max-width: 1024px) {
+    #root {
+        grid-row: 5;
+        grid-column: 1/-1;
+    }
+}
