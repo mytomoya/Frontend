@@ -1,12 +1,14 @@
 import ApexCharts from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { save } from "../api/Handler";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import style from "../scss/LineChart.module.scss";
 import { Data } from "../Container";
 
 const TIME_RANGE_IN_MILLISECONDS = 30 * 1000;
+// const THRESHOLD = 0.3;
+const THRESHOLD = 5;
 
 const options: ApexOptions = {
     chart: {
@@ -67,6 +69,12 @@ interface Props {
 const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
     const [showMessage, setShowMessage] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
+    const [result, setResult] = useState<string>("");
+
+    useEffect(() => {
+        const _result = getResult(data);
+        setResult(_result);
+    }, [data]);
 
     const series = [
         {
@@ -91,6 +99,24 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
 
     console.log(data);
 
+    const getResult = ({ yAcc }: Data) => {
+        if (yAcc.length === 0) {
+            return "";
+        }
+
+        const numCorrect = yAcc.reduce((accumulation, current) => {
+            if (current <= THRESHOLD) {
+                accumulation += 1;
+            }
+            return accumulation;
+        }, 0);
+        const score = (numCorrect / yAcc.length) * 100;
+
+        const _result = `Score: ${score.toFixed(2)} %`;
+
+        return _result;
+    };
+
     const saveData = async () => {
         const success = await save(data);
         if (success) {
@@ -112,6 +138,7 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
                 type="line"
                 height={400}
             />
+            <div className={style["result"]}>{result}</div>
             <div className={style["save-button-wrapper"]}>
                 <button className="default-button" onClick={saveData}>
                     Save
