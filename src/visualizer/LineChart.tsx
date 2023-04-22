@@ -143,7 +143,7 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
 
         const score = (numCorrect / yAcc.length) * 100;
 
-        const _result = `Score: ${score.toFixed(2)} %`;
+        const _result = `${score.toFixed(2)}`;
         const worstSpan = getWorstSpan(flags);
 
         const span =
@@ -192,7 +192,10 @@ const LineChart = ({ data, setUpdated }: Props): JSX.Element => {
                 height={400}
             />
             <div className={style["result"]}>
-                <div className={style["score"]}>{result.score}</div>
+                <div className={style["score"]}>
+                    <span className={style["score-label"]}>Score</span>:{" "}
+                    {result.score} %
+                </div>
                 <div className={style["span"]}>{result.span}</div>
             </div>
             <div className={style["save-button-wrapper"]}>
