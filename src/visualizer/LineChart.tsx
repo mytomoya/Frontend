@@ -7,7 +7,7 @@ import style from "../scss/LineChart.module.scss";
 import { Data } from "../Container";
 
 const TIME_RANGE_IN_MILLISECONDS = 30 * 1000;
-const THRESHOLD = 0.3;
+const THRESHOLD = 0.02;
 const numberOfSpans = 6;
 
 const options: ApexOptions = {
@@ -46,8 +46,8 @@ const options: ApexOptions = {
     annotations: {
         yaxis: [
             {
-                y: -0.3,
-                y2: 0.3,
+                y: -THRESHOLD,
+                y2: THRESHOLD,
                 borderColor: "#000",
                 fillColor: "#FEB019",
                 label: {
