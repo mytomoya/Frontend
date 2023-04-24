@@ -47,9 +47,9 @@ const Model = ({ animate, zValues }: Props): JSX.Element => {
         const length = defaultZ.length;
         let values: number[] = [];
 
-        // Normalize to have last value as defaultZMax
+        // Normalize to have the maximum value equal to defaultZMax
         const defaultZMax = Math.max(...defaultZ);
-        const scale = defaultZMax / z[z.length - 1];
+        const scale = defaultZMax / Math.max(...z);
         for (let i = 0; i < z.length; i++) {
             let value = z[i] * scale;
             values.push(value);

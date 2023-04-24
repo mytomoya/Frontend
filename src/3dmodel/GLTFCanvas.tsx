@@ -4,13 +4,21 @@ import Model from "./Model";
 import { Suspense, useState } from "react";
 
 import style from "../scss/GLTFCanvas.module.scss";
+import { kalmanFilter2ndOrder } from "../Helper";
 
 interface Props {
+    time: number[];
     yAccValues: number[];
 }
 
-const GLTFCanvas = ({ yAccValues }: Props): JSX.Element => {
+const GLTFCanvas = ({ yAccValues, time }: Props): JSX.Element => {
     const [animate, setAniamte] = useState<boolean>(true);
+    let meanTime =
+        time.length > 0
+            ? time.reduce((accumulated, current) => accumulated + current) /
+              time.length
+            : 0.01;
+    let position = kalmanFilter2ndOrder(yAccValues, meanTime);
 
     return (
         <div id={style.root}>
@@ -37,7 +45,7 @@ const GLTFCanvas = ({ yAccValues }: Props): JSX.Element => {
                     <ambientLight />
                     {/* <pointLight position={[10, 10, 10]} /> */}
                     <Suspense fallback={null}>
-                        <Model animate={animate} zValues={yAccValues} />
+                        <Model animate={animate} zValues={position} />
                     </Suspense>
                 </Canvas>
             </div>

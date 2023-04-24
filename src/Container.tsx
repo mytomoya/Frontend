@@ -4,7 +4,6 @@ import GLTFCanvas from "./3dmodel/GLTFCanvas";
 import History from "./history/History";
 import { useState } from "react";
 
-
 export interface Data {
     time: number[];
     activities: boolean[];
@@ -27,12 +26,11 @@ const Container = (): JSX.Element => {
         zCorrect: [],
     });
 
-
     return (
         <div id={style.container}>
             <h1>Deadlift Form Checker</h1>
             <Visualizer setUpdated={setUpdated} data={data} setData={setData} />
-            <GLTFCanvas yAccValues={data.yAcc} />
+            <GLTFCanvas yAccValues={data.yAcc} time={data.time} />
             <History updated={updated} setUpdated={setUpdated} />
         </div>
     );
